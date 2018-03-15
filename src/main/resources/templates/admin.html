@@ -1,0 +1,175 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Safe Space Decentralize Exchange - Admin</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<link rel="stylesheet" th:href="@{/css/dashboard.css}" href="../../css/main.css" />
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+
+</head>
+<body>
+	<div class="container">
+	    <div class="row">
+	        <div class="col-md-2 no-float left-navi-dashboard">
+				<div class="header-logo"><img src="../../assets/icon/safespace-small.png" class="smallImage" /> </div>
+				<ul class="left-navi font-white">
+					<li class="active"><img src="../../assets/icon/wallet.png" class="smallImage activeImg"   /> Wallet</li>
+					<li class=""><img src="../../assets/icon/account.png" class="smallImage" /> Account</li>
+					<li class=""><img src="../../assets/icon/dex.png" class="smallImage" /> Decentralized Exchange</li>
+					<li class=""><img src="../../assets/icon/send.png" class="smallImage" /> Send</li>
+					<li class=""><img src="../../assets/icon/deposit.png" class="smallImage" /> Deposit/Withdraw</li>
+					<li class=""><img src="../../assets/icon/settings.png" class="smallImage" /> Settings</li>	
+					<li class=""><img src="../../assets/icon/logout.png" class="smallImage" /> Logout</li>
+					
+				</ul>
+			</div>
+	        <div class="col-md-10 no-float">
+				<nav class="navbar navbar-inverse">
+		        <div class="container-fluid">
+		          <div class="navbar-header">
+		            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+		              <span class="sr-only">Toggle navigation</span>
+		              <span class="icon-bar"></span>
+		              <span class="icon-bar"></span>
+		              <span class="icon-bar"></span>
+		            </button>
+		            <a class="navbar-brand" href="#"><img src="../../assets/icon/qr-code.png" class="smallImage" />  
+						<span class="addressUser" style="font-size:18px;"> Welcome Admin </span>
+						<img src="../../assets/icon/copy.png" class="smallImage" /> 
+					</a>
+		          </div>
+		          <div id="navbar" class="navbar-collapse collapse">
+		            
+		            <ul class="nav navbar-nav navbar-right">
+		              <li><a href="./"> <img src="../../assets/icon/settings-white.png" class="smallImage" /> </a></li>
+		              <li><a href="../navbar-static-top/"><img src="../../assets/icon/user.png" class="smallImage" /></a></li>
+		              <li><a href="../navbar-fixed-top/"><img src="../../assets/icon/close.png" class="smallImage" /></a></li>
+		            </ul>
+		          </div><!--/.nav-collapse -->
+		        </div><!--/.container-fluid -->
+		      </nav>
+			  <div class="container"> 
+			  	<div class="row" th:each="wallet : ${wallet}">
+					<div class="activateAccount" th:if="${wallet == 'empty'}">
+						<div class="header">Activate your account</div>
+						<div class="content">
+							<div class="yourWallet">
+								<div>Your Wallet Account id:</div>
+								<div><span th:text="${accountId}" style="font-weight:bold;font-size:17px;"></span> </div>
+							</div>
+							<div>
+							To use your Stellar account, you must activate it by sending at least 5 lumens (XLM) to your account. You can buy lumens (XLM) from an exchange and send them to your address.
+							</div>
+							<div>
+								<input type="hidden" id="accountId" th:value="${accountId}" />
+								<input type="button" class="blue-button buylumen" value="Buy Lumen" id="buylumen" /></div>
+						</div>
+					</div>
+					
+					<div th:if="${wallet != 'empty'}">
+						<div class="col-sm-2 asset-box asset-box-white" th:each="asset : ${wallet.assetList}">
+							<div class="fontSize-25">
+								<input type="hidden" id="accountCodeHidden" th:value="${asset.assetCode}" />
+								<input type="hidden" id="accountId" th:value="${accountId}" />
+								<span>$</span>
+								<span class="float-right"  th:if="${asset.assetType == 'native'}">LUMENS</span>
+								<span class="float-right" th:text="${asset.assetCode}" th:unless="${asset.assetCode == 'native'}">US DOLLAR</span>
+							</div>
+							<div class="text-right fontSize-25 " th:text="${asset.balance}">0</div>
+							<div class="text-right fontSize-25 padding-bottom20px" th:if="${asset.assetType == 'native'}">.00</div>
+							<div class="text-right fontSize-25 padding-bottom20px" th:text="${asset.limit}" th:if="${asset.assetType != 'native'}">.00</div>
+							<div>
+								<input type="button" value="Send" class="blue-button sendAsset" data-toggle="modal" data-target="#modalSend" id="send"/> 
+								<input type="button" value="Withdraw" class="blue-button white-button withdrawAsset" id="withdraw"/>
+								<input type="button" value="Deposit" class="blue-button white-button depositAsset" id="deposit"/>
+							</div>
+						</div>
+					</div>
+					<input type="button" class="blue-button buylumen createAsset" value="Create New Asset" id="createAsset" data-toggle="modal" data-target="#myModal" />
+				</div>
+			  </div>
+			</div>
+	    </div>
+	</div>
+	<!-- /.container -->
+	<div id="myModal" class="modal fade" role="dialog">
+	  <div class="modal-dialog">
+	
+	    <!-- Modal content-->
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h4 class="modal-title">Create Custom Assets</h4>
+	      </div>
+		 <div class="modal-body">
+	        <div class="form-group">
+			  <label for="usr">Account Code:</label>
+			  <input type="text" class="form-control" id="assetCode"/>
+			</div>
+			<div class="form-group">
+			  <label for="pwd">Limit:</label>
+			  <input type="text" class="form-control" id="limit"/>
+			</div>
+			<div class="form-group">
+			  <label for="pwd">Initial Balance:</label>
+			  <input type="text" class="form-control" id="balance" />
+			</div>
+	      </div>	
+	    
+	      <div class="modal-footer">
+			 <button type="button" class="btn btn-default" data-dismiss="modal" id="saveAsset">Save</button>
+	        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+	      </div>
+	    </div>
+	
+	  </div>
+	</div>
+
+
+	<!--Modal for send -->
+	<div id="modalSend" class="modal fade" role="dialog">
+	  <div class="modal-dialog">
+	
+	    <!-- Modal content-->
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h4 class="modal-title">SEND PAYMENT : <span class="tokenName">US DOLLAR</span></h4>
+	      </div>
+		 <div class="modal-body">
+
+				<div class="col-sm-4 grayBg border-radius-left">DESCRIPTION</div>
+				<div class="col-sm-8 grayBg border-radius-right">INPUT</div>
+				<div class="col-sm-4 paddingTop-14px">Recipient's Address</div>
+				<div class="col-sm-8">
+					<div class="form-group"><input type="text" class="form-control" id="recipient"/></div>
+				</div>
+				<div class="col-sm-4 paddingTop-14px">Amount</div>
+				<div class="col-sm-8">
+					<div class="form-group"><input type="text" class="form-control" id="amount"/></div>
+				</div>
+
+				<div class="col-sm-4 paddingTop-14px">Transaction Memo</div>
+				<div class="col-sm-8">
+					<div class="form-group"><input type="text" class="form-control" id="memo"/></div>
+				</div>
+	      </div>	
+	    
+	      <div class="modal-footer">
+			 <button type="button" class="btn btn-default blue-button"  id="sendPayment">Send</button>
+	        <button type="button" class="btn btn-default blue-button" data-dismiss="modal">Close</button>
+	      </div>
+	    </div>
+	
+	  </div>
+	</div>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script th:src="@{/js/main.js}"> </script>
+	<script th:src="@{/js/wallet.js}"> </script>
+
+</body>
+</html>

@@ -1,0 +1,131 @@
+body {
+	 background-image: url("./../assets/bg/background.png");
+	background-size: auto;
+    background-repeat: no-repeat;
+	font-family: "Open Sans";
+}
+
+.float-right: {
+	float:right !important;
+}
+
+.banner-ss {
+	text-align:center;
+	padding-top:53px;
+}
+
+
+.header-nav li a {
+	color:white;
+}
+
+.padding-bottom20px {
+	padding-bottom: 20px;
+}
+
+.exchange-your-trust {
+	font-size: 16px;
+    line-height: 2;
+    letter-spacing: 9px;
+}
+
+.font-white {
+	color:white;
+}
+
+.font-gray {
+	color:gray;
+}
+
+.generate-box {
+	text-align:left;
+	background-color: #2C324F;
+ 	color: #858AA0;
+	padding:20px;
+}
+
+.padding-bottom-13px {
+	padding-bottom:13px;
+} 
+
+.font13px {
+	font-size:12px;
+}
+
+.create-account-form {
+	padding-top:60px;
+    text-align: left;
+}
+
+.keysform {
+	display:none;
+}
+.color-21BFD7 {
+	color:#21BFD7;
+}
+
+.color-2c84f0 {
+	color:#21BFD7;
+}
+
+.button-gen-key{
+    border-radius: 10px;
+    padding: 2px 12px 2px 12px;
+    background: #21BFD7;
+    color: black;
+    border: #21BFD7;
+}
+
+.side-links {
+	background-color: #2c324f;
+    padding: 10px;
+    border-radius: 2px;
+    color: #858AA0;
+	margin-bottom:9px;
+    border-right: 12px solid #202b3e;
+	cursor: pointer;
+}
+
+.side-links-active {
+	border-right: 12px solid #2c324f;
+	color:#21BFD7;
+}
+
+.cont-generate-box {
+	border: 12px solid linear-gradient(to right, red , yellow);;
+    padding: 20px;
+	background-color: #1f2b3e;
+	border: 10px solid #2c84f0;
+}
+
+.nav-safe-space>li>a:focus, .nav-safe-space>li>a:hover {
+	color:black !important;
+}
+
+.access-account-txt {
+    text-align: left;
+    font-size: 20px;
+    line-height: 2.4;
+}
+
+.border-right-gray {
+	border-right:2px solid gray !important;
+}
+
+.login-input {
+	width: 100%;
+    border: 0px;
+    background-color: #202b3e;
+    height: 31px;
+    padding: 11px;
+    color: #22bfd7;
+}
+
+.securities li {
+	padding-top: 20px;
+}
+
+.securtiy-notes {
+	font-weight:bold;
+	padding-top:30px;
+}

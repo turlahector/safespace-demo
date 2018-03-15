@@ -1,0 +1,117 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Safespace Decentralize Exchange</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" type="text/css"
+	href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+<link rel="stylesheet" th:href="@{/css/main.css}" href="../../css/main.css" />
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+
+</head>
+<body>
+	<section class="main-section">
+		<nav class="navbar">
+		  <div class="container-fluid">
+		    <ul class="nav navbar-nav header-nav" style="float:right !important">
+		      <li class="active"><a href="#">Exchange</a></li>
+		      
+		      <li><a href="#">Markets</a></li>
+		      <li><a th:href="@{/account}">Account</a></li>
+			  <li class="dropdown">
+		        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+		        <img src="../../assets/icon/us.png" /><span class="caret"></span></a>
+		        <ul class="dropdown-menu">
+		          <li><a href="#">Page 1-1</a></li>
+		          <li><a href="#">Page 1-2</a></li>
+		          <li><a href="#">Page 1-3</a></li>
+		        </ul>
+		      </li>
+		    </ul>
+		  </div>
+		</nav>
+		<div class="container banner-ss">
+	
+			<div class="starter-template">
+				<div class="container cont-generate-box">
+					<div class="col-sm-3 border-right-gray"> 
+						<img src="../../assets/icon/safespace-small.png" class="smallImage" /> 
+					</div>
+					<div class="col-sm-9 access-account-txt ">
+						<span class="font-white ">Access your Account</span>	
+					</div>
+					<div class="create-account-form">		
+					<div class="col-sm-3 font-white" style="padding-right:0px;">
+						<div class="side-links side-links-active new-account">New Account</div>
+						<div class="side-links login-key">Log in with key</div>
+					</div>
+					<div class="col-sm-9" style="padding-left:0px;">
+						<div class="font-gray generate-box create-account">
+							<div class="padding-bottom-13px">CREATE ACCOUNT KEYPAIR</div>
+
+							<div class="padding-bottom-13px font13px">To get started on using the Stellar network, you must first create a keypair. The keypair consists of two parts:</div>
+							<div class="padding-bottom-13px font13px"><span class="color-21BFD7">Public key:</span> The public key is used to identify the account. 
+								It is also known as an account. This public key is used for receiving funds.</div>
+							<div class="padding-bottom-13px font13px"><span class="color-21BFD7">Secret key:</span> The secret key is used to access your account and make transactions. 
+								Keep this code safe and secure. Anyone with the code will have full access to the account and funds. 
+								If you lose the key, you will no longer be able to access the funds and there is no recovery mechanism.</div>
+							<div class="padding-bottom-13px">
+								<input type="button" value="Generate keypair" class="button-gen-key" id="generateKey"/>
+							</div>
+							<div class="padding-bottom-13px font13px">
+								Keep your key secure. This secret key will only be showed to you once. 
+								StellarTerm does not save it and will not be able to help you recover it if lost.
+							</div>
+							<div class="keysform">
+								<div class="font13px ">Public key (will be your Account ID):</div> 
+								<div class="padding-bottom-13px font13px color-2c84f0 publicKey">GDPLLMJG7WENIJD5WTV4CUUXVOX2YVNSEBRSXMHLDZL32PFZXESBBSMA</div>
+
+								<div class="font-size-13px">Secret key (SAVE THIS AND KEEP THIS SECURE):</div>
+								<div class="padding-bottom-13px font-size-13px color-2c84f0 secretKey"> SDHRX4EL7OKIT3AYCHWJIO6242Q442BH76UTEI7KBUFWD7X3ETNUHRVV</div>
+							</div>
+						</div>
+
+						<div class="font-gray generate-box access-account" style="display:none">
+							<div class="padding-bottom-13px">LOG IN WITH YOUR SECRET KEY TO MANAGE YOUR ACCOUNT</div>
+
+							<div class="padding-bottom-13px font13px">
+								<input type="text" placeholder="GDPLLMJG7WENIJD5WTV4CUUXVOX2YVNSEBRSXMHLDZL32PFZXESBBSMA" value="" class="login-input"/>
+							</div>
+							
+							
+							<div class="padding-bottom-13px">
+								<input type="button" value="LOG IN" class="button-gen-key" id="login"/>
+							</div>
+
+							<div class="padding-bottom-13px securtiy-notes">Security notes</div>
+							<div class="padding-bottom-13px font13px">
+								<ul class="securities">
+									<li>Check the url to make sure you are on the correct websites.</li>
+									<li>Safespace does not save your secret key. It is stored on your browser and will be deleted once the page is refreshed or exited</li>
+									<li>For extra security, you can build from source or download from GitHub and verify the hash</li>	
+									<li>Safespace is released under the Apache 2.0 It is provided "AS IS" without warryanty . The developer is not responsible for any losses and activities caused by the application.</li>
+								</ul>
+							</div>
+
+							
+
+						</div>
+					
+					</div>
+					</div>
+				</div>
+			</div>
+	
+		</div>
+	</section>
+	<!-- /.container -->
+
+	<script type="text/javascript"
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript"
+		src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script th:src="@{/js/account.js}"> </script>
+
+</body>
+</html>
