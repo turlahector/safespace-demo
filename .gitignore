@@ -1,0 +1,9 @@
+/target/
+.classpath
+.DS_Store
+*.prefs
+.settings/
+target/
+target/classes/application.properties
+Safe Space Decentralize Exchange - Admin_files/
+target/classes/com/stellar/
