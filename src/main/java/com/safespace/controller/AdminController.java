@@ -1,6 +1,8 @@
 package com.safespace.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.stellar.sdk.KeyPair;
 
 import com.safespace.service.StellarService;
+import com.safespace.view.Transactions;
 import com.safespace.view.Wallet;
 
 @Controller
@@ -37,6 +40,12 @@ public class AdminController {
 			model.addObject("wallet","empty");
 		}else {
 			model.addObject("wallet",wallet);
+		}
+		ArrayList<Transactions> transactions = stellarService.transactionsPerAccount(publicKeyReciever);
+		if(null != transactions && transactions.size() > 0){
+			model.addObject("transactions",transactions);
+		} else {
+			model.addObject("transactions","empty");
 		}
 		//stellarService.transactionsPerAccount(publicKeyReciever);
 		return model;

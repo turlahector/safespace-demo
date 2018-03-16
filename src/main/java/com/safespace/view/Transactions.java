@@ -7,7 +7,21 @@ public class Transactions {
 	public String sender_recipient;
 	public String fee;
 	public String unit;
+	private String ledger;
+	private String pagingToken;
 	
+	public String getLedger() {
+		return ledger;
+	}
+	public void setLedger(String ledger) {
+		this.ledger = ledger;
+	}
+	public String getPagingToken() {
+		return pagingToken;
+	}
+	public void setPagingToken(String pagingToken) {
+		this.pagingToken = pagingToken;
+	}
 	public String getDate() {
 		return date;
 	}

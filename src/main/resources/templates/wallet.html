@@ -93,31 +93,23 @@
 								  <table class="table">
 								    <thead>
 								      <tr>
-								        <th>DATE</th>
-								        <th>TYPE</th>
-								        <th>NAME</th>
-								        <th>SENDER/RECIPIENT</th>
+								        <th>LEDGER</th>
 								        <th>FEE</th>
-								        <th>UNITS</th>
+								        <th>SOURCE ACCOUNT</th>
+								        <th>TYPE</th>
+								        <th>DATE</th>
+								        <th>PAGING TOKEN</th>
 								      </tr>
-								    </thead>
-								    <tbody>
-								      <tr>
-								        <td>1</td>
-								        <td>Anna</td>
-								        <td>Pitt</td>
-								        <td>35</td>
-								        <td>New York</td>
-								        <td>USA</td>
-								      </tr>
-										<tr>
-								        <td>1</td>
-								        <td>Anna</td>
-								        <td>Pitt</td>
-								        <td>35</td>
-								        <td>New York</td>
-								        <td>USA</td>
-								      </tr>
+								    </thead>								   
+								    <tbody th:if="${transactions != 'empty'}" th:each="transactions : ${transactions}">
+									      <tr>
+									        <td><span th:text="${transactions.ledger}" ></span></td>
+									        <td><span th:text="${transactions.fee}" ></span></td>
+									        <td><span th:text="${transactions.sender_recipient}" ></span></td>
+									        <td><span th:text="${transactions.type}" ></span></td>
+									        <td><span th:text="${transactions.date}" ></span></td>
+									        <td><span th:text="${transactions.pagingToken}" ></span></td>
+									      </tr>							
 								    </tbody>
 								  </table>
 							</div>

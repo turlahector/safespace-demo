@@ -16,12 +16,18 @@ import org.stellar.sdk.Network;
 import org.stellar.sdk.PaymentOperation;
 import org.stellar.sdk.Server;
 import org.stellar.sdk.Transaction;
+import org.stellar.sdk.requests.AccountsRequestBuilder;
 import org.stellar.sdk.responses.AccountResponse;
 import org.stellar.sdk.responses.SubmitTransactionResponse;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.safespace.service.StellarService;
 import com.safespace.view.Assets;
 import com.safespace.view.KeyPairView;
+import com.safespace.view.Transactions;
 import com.safespace.view.Wallet;
 import com.stellar.StellarUtil;
 
@@ -45,7 +51,7 @@ public class StellarServiceImpl implements StellarService{
 	@Override
 	public Map<String, Object> requestFreeLumen(String accountId) {
 		Map<String, Object> status = new HashMap<String, Object>();
-		String friendbotUrl = String.format("https://horizon-testnet.stellar.org/friendbot?addr=%s",accountId);
+		String friendbotUrl = String.format("https://friendbot.stellar.org/?addr=%s",accountId);
 		InputStream response = null;
 		try {
 			response = new URL(friendbotUrl).openStream();
@@ -184,53 +190,84 @@ public class StellarServiceImpl implements StellarService{
 		return status;
 	}
 	
-	public Map<String, Object>  sendPayment() throws IOException {
-		Map<String, Object> status = new HashMap<String, Object>();
-		Network.useTestNetwork();
-		Server server = new Server("https://horizon-testnet.stellar.org");
-
-		// Keys for accounts to issue and receive the new asset
-		KeyPair issuingKeys = KeyPair
-		  .fromSecretSeed("SDVIFXJSPD4K4JYGOOAZCNB7HLEXH4NIBNGCEJFGDUHIXGPSH6XUIDJD");
-		KeyPair receivingKeys = KeyPair
-		  .fromSecretSeed("SCNJDYDMCQVD67Y6JAYVC7BNCCEMAOZNHBEHOTYJIUKEOVGRK4GJ46PE");
-
-		// Create an object to represent the new asset
-		Asset astroDollar = Asset.createNonNativeAsset("MVPToken", issuingKeys);
+	public void sendPayment(String assetCode) throws IOException {		
+		Network.useTestNetwork();		
+		Server server = new Server("https://horizon-testnet.stellar.org");		
+		KeyPair issuer = KeyPair.fromAccountId("GCZWYIINWDA3KFX374DMOHDYER5QXLQMRLIN7OKI7YS7SHLDOHVWAF7S");		
+		Asset customAsset = Asset.createNonNativeAsset(assetCode, issuer);		
+		KeyPair source = KeyPair.fromSecretSeed("SBIS3W62BSJVG3TEIOSYJSQT5XFZK2ZZFAJDEIHLCSRHC6RN6NDEQ6Y4");		
+		KeyPair destination = KeyPair.fromAccountId("GCREHQOSRDKJNC6CWYP2FCOHVVU4EJA54HHIPI4F5JA6KZMIF2I336PO");				
+		KeyPair receivingKeys = KeyPair.fromSecretSeed("SAGHP7BHFXUFLCV4FDZLA2CPSEVJKYCQDMA7CT7FRN2XTINUGLSGRMCL");		
+		// First, check to make sure that the destination account exists.		
+		// You could skip this, but if the account does not exist, you will be charged		
+		// the transaction fee when the transaction fails.		
+		// It will throw HttpResponseException if account does not exist or there was another error.		
+		server.accounts().account(destination);				
+		// First, the receiving account must trust the asset					
+		AccountResponse receiving = server.accounts().account(receivingKeys);					
+		Transaction allowNewAsset = new Transaction.Builder(receiving).addOperation(					    
+				// The `ChangeTrust` operation creates (or alters) a trustline					    
+				// The second parameter limits the amount the account can hold					    
+				new ChangeTrustOperation.Builder(customAsset, "10000000").build()).build();					
+		allowNewAsset.sign(receivingKeys);					
+		server.submitTransaction(allowNewAsset);		
+		// If there was no error, load up-to-date information on your account.		
+		AccountResponse sourceAccount = server.accounts().account(source);		
+		//new AssetTypeNative()		
+		// Start building the transaction.		
+		Transaction transaction = new Transaction.Builder(sourceAccount).addOperation(new PaymentOperation.Builder(destination, customAsset, "100").build())		       
+				// A memo allows you to add your own metadata to a transaction. It's		       
+				// optional and does not affect how Stellar treats the transaction.		        
+				.addMemo(Memo.text("Test Transaction"))		        .build();		
+		// Sign the transaction to prove you are actually the person sending it.		
+		transaction.sign(source);		
+		// And finally, send it off to Stellar!		
+		try {		  
+			SubmitTransactionResponse response = server.submitTransaction(transaction);		  
+			System.out.println("Success!");		 
+			System.out.println(response);		
+			} catch (Exception e) {		 
+				System.out.println("Something went wrong!");		 
+				System.out.println(e.getMessage());		  
+				// If the result is unknown (no response body, timeout etc.) we simply resubmit		  
+				// already built transaction:		 
+				// SubmitTransactionResponse response = server.submitTransaction(transaction);		
+			}	
+		}
 		
-		AccountResponse receiving = server.accounts().account(receivingKeys);
-		Transaction allowAstroDollars = new Transaction.Builder(receiving)
-		  .addOperation(
-		    // The `ChangeTrust` operation creates (or alters) a trustline
-		    // The second parameter limits the amount the account can hold
-		    new ChangeTrustOperation.Builder(astroDollar, "1000").build())
-		  .build();
-		allowAstroDollars.sign(receivingKeys);
-		server.submitTransaction(allowAstroDollars);
 
-		// First, the receiving account must trust the asset
-		
-		// Second, the issuing account actually sends a payment using the asset
-		AccountResponse issuing = server.accounts().account(issuingKeys);
-		Transaction sendAstroDollars = new Transaction.Builder(issuing)
-		  .addOperation(
-		    new PaymentOperation.Builder(receivingKeys, astroDollar, "100").build())
-		  .build();
-		sendAstroDollars.sign(issuingKeys);
-		server.submitTransaction(sendAstroDollars);
-		return status;
-	}
-
-	public Map<String, Object> transactionsPerAccount(String accountId) {
+	public ArrayList<Transactions> transactionsPerAccount(String accountId) {
 		StellarUtil stellarUtil = new StellarUtil();
 		String endpoint =  network+"/accounts/"+accountId+"/transactions";
+		Gson gson = new Gson();
+		ArrayList<Transactions> transactions = new ArrayList<Transactions>();
 		try {
-			stellarUtil.callMethod("GET", "", endpoint);
+			String transansactionList = stellarUtil.callMethod("GET", "", endpoint);
+			JsonElement jelem = gson.fromJson(transansactionList, JsonElement.class);
+
+			JsonObject embeded = jelem.getAsJsonObject().get("_embedded").getAsJsonObject(); 
+			JsonArray recordArray = embeded.get("records").getAsJsonArray(); 
+			if(!recordArray.isJsonNull()){
+				for(JsonElement element : recordArray){
+					Transactions transaction = new Transactions();
+					JsonObject recordElement = element.getAsJsonObject();
+					transaction.setFee(recordElement.get("fee_paid").getAsString());
+					transaction.setDate(recordElement.get("created_at").getAsString());
+					transaction.setType(recordElement.get("memo_type").getAsString());
+					transaction.setSender_recipient(recordElement.get("source_account").getAsString());
+					transaction.setSender_recipient(recordElement.get("source_account").getAsString());
+					transaction.setLedger(recordElement.get("ledger").getAsString());
+					transaction.setPagingToken(recordElement.get("paging_token").getAsString());
+					
+					transactions.add(transaction);
+				}
+			}
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return null;
+		return transactions;
 	}
 
 	

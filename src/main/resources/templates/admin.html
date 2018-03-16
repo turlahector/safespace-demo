@@ -87,6 +87,36 @@
 							</div>
 						</div>
 					</div>
+					<div class="latest-transaction col-sm-12">
+						<div class="transaction-title">LATEST TRANSACTION</div>
+						<div class="transaction-content">
+							<div class="table-responsive">          
+								  <table class="table">
+								    <thead>
+								      <tr>
+								        <th>LEDGER</th>
+								        <th>FEE</th>
+								        <th>SOURCE ACCOUNT</th>
+								        <th>TYPE</th>
+								        <th>DATE</th>
+								        <th>PAGING TOKEN</th>
+								      </tr>
+								    </thead>
+								    <tbody  th:each="transactions : ${transactions}">
+									      <tr>
+									        <td><span th:text="${transactions.ledger}" ></span></td>
+									        <td><span th:text="${transactions.fee}" ></span></td>
+									        <td><span th:text="${transactions.sender_recipient}" ></span></td>
+									        <td><span th:text="${transactions.type}" ></span></td>
+									        <td><span th:text="${transactions.date}" ></span></td>
+									        <td><span th:text="${transactions.pagingToken}" ></span></td>
+									      </tr>							
+								    </tbody>
+								  </table>
+							</div>
+						</div>
+						
+					</div>
 					<input type="button" class="blue-button buylumen createAsset" value="Create New Asset" id="createAsset" data-toggle="modal" data-target="#myModal" />
 				</div>
 			  </div>

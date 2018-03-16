@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.security.MessageDigest;
@@ -28,14 +29,13 @@ public class StellarUtil {
 	}
 	
 	public String callMethod(String method, String data, String endpoint) throws IOException {
-        URL url = new URL(endpoint + "?method=" + method);
-        URLConnection connection = url.openConnection();
+        URL url = new URL(endpoint);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod(method);
         //connection.addRequestProperty("X-WSSE", getHeader(username,password));
-
+        
         connection.setDoOutput(true);
-        OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
-        wr.write(data);
-        wr.flush();
+
 
         InputStream in = connection.getInputStream();
         BufferedReader res = new BufferedReader(new InputStreamReader(in, "UTF-8"));

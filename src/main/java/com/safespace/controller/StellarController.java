@@ -66,8 +66,9 @@ public class StellarController {
 		
 		Asset customAsset = Asset.createNonNativeAsset(assetCode, issuer);
 		
-		if (assetCode == "LUMENS") {
+		if (assetCode.equalsIgnoreCase("LUMENS")) {
 			customAsset = new AssetTypeNative();
+			
 		}
 		return stellarService.sendTransaction(customAsset, source, destination, amount, transactionMemo);
 	}

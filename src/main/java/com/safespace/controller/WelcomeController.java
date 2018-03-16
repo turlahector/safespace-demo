@@ -48,7 +48,7 @@ public class WelcomeController {
 			model.addObject("wallet",wallet);
 		}
 		
-		
+			model.addObject("transactions",stellarService.transactionsPerAccount(accountId));
 		return model;
 	}
 	
