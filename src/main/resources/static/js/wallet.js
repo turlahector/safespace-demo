@@ -56,18 +56,21 @@ $( document ).ready(function() {
 		var accountId = jQuery("#accountId").val();
 		var sourceKey = getCookie(accountId);
 		var assetCode = jQuery(".tokenName").text();
+		var secretCode = {"secretCode" : jQuery("#secretCode").val()};
 		console.log("accountId===" + accountId);
 		console.log("recipeint===" + recipeint);
 		console.log("amount===" + amount);
 		console.log("transactionMemo===" + transactionMemo);
 		console.log("assetCode==="  + assetCode);
 		console.log("sourceKey===" + sourceKey);
-		console.log("assetCode===" + assetCode);
+		console.log("secretCode===" + secretCode);
 		
 		
 		$.ajax({
 	    url : '/api/stellar/sendPayment/'+assetCode+'/'+sourceKey+'/'+recipeint+'/'+amount+'/'+transactionMemo,
 	          method: "POST",
+	          data: JSON.stringify(secretCode),
+	          contentType : 'application/json', 
 	          async: true,
 	          success : function(data) {
 				location.reload();
