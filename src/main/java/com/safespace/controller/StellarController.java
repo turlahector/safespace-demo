@@ -82,4 +82,28 @@ public class StellarController {
 		
 		return stellarService.sendPayment(customAsset, issuingKeysSecret, receivingKeysSecret, amount, transactionMemo);
 	}
+	
+	@RequestMapping(value="/createOffer/{souceSecretSeed}/{assetCodeSell}/{assetAmountSell}/{assetCodeBuy}/{assetAmountBuy}/{transactionMemo}", method=RequestMethod.POST)
+		public Map<String, Object> createOffer(
+				@PathVariable ("souceSecretSeed") String souceSecretSeed, 
+				@PathVariable ("assetCodeSell") String assetCodeSell, 
+				@PathVariable("assetAmountSell") String assetAmountSell, 
+				@PathVariable ("assetCodeBuy") String assetCodeBuy,
+				@PathVariable("assetAmountBuy") String assetAmountBuy,
+				@PathVariable("transactionMemo") String transactionMemo) throws IOException {
+			KeyPair issuer = KeyPair.fromAccountId(publicKeyIssuer);
+			KeyPair source = KeyPair.fromSecretSeed(souceSecretSeed);
+			
+			Asset customAssetSell = Asset.createNonNativeAsset(assetCodeSell, issuer);
+			Asset customAssetBuy = Asset.createNonNativeAsset(assetCodeBuy, issuer);
+			
+			if (assetCodeSell.equalsIgnoreCase("LUMENS")) {
+				customAssetSell = new AssetTypeNative();			
+			}
+			
+			if (assetCodeBuy.equalsIgnoreCase("LUMENS")) {
+				customAssetBuy = new AssetTypeNative();			
+			}
+			return stellarService.createOffer(souceSecretSeed, customAssetSell, customAssetBuy, assetAmountSell, assetAmountBuy, transactionMemo);
+		}
 }

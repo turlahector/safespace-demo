@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.stellar.sdk.Asset;
 import org.stellar.sdk.ChangeTrustOperation;
 import org.stellar.sdk.KeyPair;
+import org.stellar.sdk.ManageOfferOperation;
 import org.stellar.sdk.Memo;
 import org.stellar.sdk.Network;
 import org.stellar.sdk.PaymentOperation;
@@ -335,6 +336,54 @@ public class StellarServiceImpl implements StellarService {
 		date = formatter.format(dateToFormat);
 
 		return date;
+	}
+	
+	public Map<String, Object> createOffer(String souceSecretSeed, Asset selling, Asset buying, String amountSell, String amountBuy, String memo) {
+		Network.useTestNetwork();
+		Map<String, Object> status = new HashMap<String, Object>();
+		Server server = new Server(network);
+
+		//KeyPair source = KeyPair.fromSecretSeed("SAIYAPGVLID3URRTR7YOBRVCIC4EA6XVFZ5FZOP6TJ3QFMAT44C6RDFY");
+		//KeyPair issuer = KeyPair.fromAccountId("GCCV5TIFJMJUIIIIZODUGAL3Q55CFWMZ5ZYPRYR2UUFBZA4NVUYR6GXV");
+
+		KeyPair source = KeyPair.fromSecretSeed(souceSecretSeed);
+		
+		//Asset assetMvp = selling; //Asset.createNonNativeAsset("MVPToken", issuer);
+		//AssetTypeNative lumen = new AssetTypeNative();
+		// If there was no error, load up-to-date information on your account.
+				AccountResponse sourceAccount = null;
+				try {
+					sourceAccount = server.accounts().account(source);
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					status.put("status", e1.getMessage());
+				}
+				
+		Transaction transaction = new Transaction.Builder(sourceAccount)
+		        .addOperation(new ManageOfferOperation.Builder(selling, buying, amountSell, amountBuy).setOfferId(0).build())
+		        // A memo allows you to add your own metadata to a transaction. It's
+		        // optional and does not affect how Stellar treats the transaction.
+		        .addMemo(Memo.text(memo))
+		        .build();
+		// Sign the transaction to prove you are actually the person sending it.
+		transaction.sign(source);
+		
+		try {
+			  SubmitTransactionResponse response = server.submitTransaction(transaction);
+			  System.out.println("Success!");
+			  System.out.println(response);
+			  status.put("status", "success");
+			} catch (Exception e) {
+			  System.out.println("Something went wrong!");
+			  System.out.println(e.getMessage());
+			  status.put("status", e.getMessage());
+			  // If the result is unknown (no response body, timeout etc.) we simply resubmit
+			  // already built transaction:
+			  // SubmitTransactionResponse response = server.submitTransaction(transaction);
+			}
+		return status;
+		
 	}
 
 }

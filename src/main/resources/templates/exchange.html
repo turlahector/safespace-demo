@@ -1,0 +1,245 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Safe Space Decentralize Exchange - Admin</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<link rel="stylesheet" th:href="@{/css/dashboard.css}" href="../../css/main.css" />
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+<link rel="stylesheet" type="text/css" href="https://www.highcharts.com/media/com_demo/css/highslide.css" />
+
+
+</head>
+<body>
+	<div class="container">
+	    <div class="row">
+	        <div class="col-md-2 no-float left-navi-dashboard">
+				<div class="header-logo"><img src="../../assets/icon/safespace-small.png" class="smallImage" /> </div>
+				<ul class="left-navi font-white">
+					<li ><a th:href="@{/admin}"><img src="../../assets/icon/wallet.png" class="smallImage"   /> Wallet</a></li>
+					<li class=""><img src="../../assets/icon/account.png" class="smallImage" /> Account</li>
+					<li class="active"><a th:href="@{/exchange}"><img src="../../assets/icon/dex.png" class="smallImage smallImage activeImg" /> Decentralized Exchange</a></li>
+					<li class=""><img src="../../assets/icon/send.png" class="smallImage" /> Send</li>
+					<li class=""><img src="../../assets/icon/deposit.png" class="smallImage" /> Deposit/Withdraw</li>
+					<li class=""><img src="../../assets/icon/settings.png" class="smallImage" /> Settings</li>	
+					<li class=""><img src="../../assets/icon/logout.png" class="smallImage" /> Logout</li>
+					
+				</ul>
+			</div>
+	        <div class="col-md-10 no-float">
+				<nav class="navbar navbar-inverse">
+		        <div class="container-fluid">
+		          <div class="navbar-header">
+		            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+		              <span class="sr-only">Toggle navigation</span>
+		              <span class="icon-bar"></span>
+		              <span class="icon-bar"></span>
+		              <span class="icon-bar"></span>
+		            </button>
+		            <a class="navbar-brand" href="#"><img src="../../assets/icon/qr-code.png" class="smallImage" />  
+						<span class="addressUser" style="font-size:18px;"> DECENTRALIZE EXCHANGE </span>
+						
+					</a>
+		          </div>
+		          <div id="navbar" class="navbar-collapse collapse">
+		            
+		            <ul class="nav navbar-nav navbar-right">
+		              <li><a href="./"> <img src="../../assets/icon/settings-white.png" class="smallImage" /> </a></li>
+		              <li><a href="../navbar-static-top/"><img src="../../assets/icon/user.png" class="smallImage" /></a></li>
+		              <li><a href="../navbar-fixed-top/"><img src="../../assets/icon/close.png" class="smallImage" /></a></li>
+		            </ul>
+		          </div><!--/.nav-collapse -->
+		        </div><!--/.container-fluid -->
+		      </nav>
+			  <div class="container"> 
+			  	<div class="row">
+			  		<div class="exchage-graph" id="exchage-graph" style="min-width: 310px; height: 350px; margin: 0 auto">
+			  			
+			  		</div>
+			  		<div class="orderbook-form row">
+			  			<div class="order-header col-sm-12">Orderbook</div>
+			  			<div class="col-sm-6">
+			  				<div class="padding-top20px">Buy</div>
+			  				<div class="padding-top20px">
+								<div class="col-sm-3">
+			  						Asset
+			  					</div>
+			  					<div class="col-sm-9">
+			  						<div class="form-group">
+			  						<div class="container">
+										 <div class="dropdown">
+										   <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Lumens
+										   <span class="caret"></span></button>
+										   <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+										     <li role="presentation"><a role="menuitem" tabindex="-1" href="#">HTML</a></li>
+										     <li role="presentation"><a role="menuitem" tabindex="-1" href="#">CSS</a></li>
+										     <li role="presentation"><a role="menuitem" tabindex="-1" href="#">JavaScript</a></li>
+										     <li role="presentation" class="divider"></li>
+										     <li role="presentation"><a role="menuitem" tabindex="-1" href="#">About Us</a></li>
+										   </ul>
+										 </div>
+										</div>
+									</div>
+			  					</div>
+			  					<div class="col-sm-3">
+			  						Amount
+			  					</div>
+			  					<div class="col-sm-9">
+			  						<div class="form-group">
+							    		<input type="email" class="form-control" id="email" />
+							  		</div>
+			  					</div>
+			  					
+			  				</div>
+			  			</div>
+			  			<div class="col-sm-6">
+			  				<div class="padding-top20px">Sell</div>
+			  				<div class="padding-top20px">
+								<div class="col-sm-3">
+			  						Asset
+			  					</div>
+			  					<div class="col-sm-9">
+									<div class="form-group">
+			  						<div class="container">
+										 <div class="dropdown">
+										   <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">MVPToken
+										   <span class="caret"></span></button>
+										   <ul class="dropdown-menu" role="menu" aria-labelledby="menu1">
+										     <li role="presentation"><a role="menuitem" tabindex="-1" href="#">HTML</a></li>
+										     <li role="presentation"><a role="menuitem" tabindex="-1" href="#">CSS</a></li>
+										     <li role="presentation"><a role="menuitem" tabindex="-1" href="#">JavaScript</a></li>
+										     <li role="presentation" class="divider"></li>
+										     <li role="presentation"><a role="menuitem" tabindex="-1" href="#">About Us</a></li>
+										   </ul>
+										 </div>
+										</div>
+									</div>
+			  					</div>
+			  					<div class="col-sm-3">
+			  						Amount
+			  					</div>
+			  					<div class="col-sm-9">
+			  						<div class="form-group">
+							    		<input type="email" class="form-control" id="email" />
+							  		</div>
+			  					</div>
+			  					
+			  					<div class="col-sm-3">
+			  						Memo
+			  					</div>
+			  					<div class="col-sm-9">
+			  						<div class="form-group">
+							    		<input type="email" class="form-control" id="email" />
+							  		</div>
+			  					</div>
+			  				</div>
+			  			</div>
+			  			
+			  			<div class="col-sm-12"><button type="button" class="btn btn-default blue-button" id="processOffer">Process Offer</button></div>
+			  			<div class="col-sm-12"><hr /></div>
+			  			<div class="order-content">
+			  				<div class="col-sm-6">
+			  				<div class="textCenter header-listOrder">Buy offer</div>
+			  				<div class="padding-top20px">
+			  					<div class="container">
+								  <div class="table-responsive">          
+								  <table class="table">
+								    <thead>
+								      <tr>
+								        <th>#</th>
+								        <th>Firstname</th>
+								        <th>Lastname</th>
+								        <th>Age</th>
+								        <th>City</th>
+								        <th>Country</th>
+								      </tr>
+								    </thead>
+								    <tbody>
+								      <tr>
+								        <td>1</td>
+								        <td>Anna</td>
+								        <td>Pitt</td>
+								        <td>35</td>
+								        <td>New York</td>
+								        <td>USA</td>
+								      </tr>
+								      <tr>
+								        <td>1</td>
+								        <td>Anna</td>
+								        <td>Pitt</td>
+								        <td>35</td>
+								        <td>New York</td>
+								        <td>USA</td>
+								      </tr>
+								    </tbody>
+								  </table>
+								  </div>
+								</div>
+			  				</div>
+			  			</div>
+			  			<div class="col-sm-6">
+			  				<div class="textCenter header-listOrder">Sell offer</div>
+			  				<div class="padding-top20px">
+			  					<div class="container">
+								  <div class="table-responsive">          
+								  <table class="table">
+								    <thead>
+								      <tr>
+								        <th>#</th>
+								        <th>Firstname</th>
+								        <th>Lastname</th>
+								        <th>Age</th>
+								        <th>City</th>
+								        <th>Country</th>
+								      </tr>
+								    </thead>
+								    <tbody>
+								      <tr>
+								        <td>1</td>
+								        <td>Anna</td>
+								        <td>Pitt</td>
+								        <td>35</td>
+								        <td>New York</td>
+								        <td>USA</td>
+								      </tr>
+								      <tr>
+								        <td>1</td>
+								        <td>Anna</td>
+								        <td>Pitt</td>
+								        <td>35</td>
+								        <td>New York</td>
+								        <td>USA</td>
+								      </tr>
+								    </tbody>
+								  </table>
+								  </div>
+								</div>
+			  				</div>
+			  			</div>
+			  			</div>
+			  			
+			  		</div>
+			  	</div>
+			  </div>
+			</div>
+	    </div>
+	</div>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script th:src="@{/js/main.js}"> </script>
+	<script th:src="@{/js/wallet.js}"> </script>
+	<script src="https://code.highcharts.com/highcharts.js"></script>
+	<script src="https://code.highcharts.com/modules/data.js"></script>
+	<script src="https://code.highcharts.com/modules/series-label.js"></script>
+	<script src="https://code.highcharts.com/modules/exporting.js"></script>
+
+	<!-- Additional files for the Highslide popup effect -->
+	<script src="https://www.highcharts.com/media/com_demo/js/highslide-full.min.js"></script>
+	<script src="https://www.highcharts.com/media/com_demo/js/highslide.config.js" charset="utf-8"></script>
+	<script th:src="@{/js/charts.js}"> </script>
+</body>
+</html>

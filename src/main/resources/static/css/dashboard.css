@@ -41,6 +41,13 @@ html,body,.container {
 	cursor:pointer;
 }
 
+ul.left-navi a {
+	color: #e3e3e3 !important;
+}
+
+ul.left-navi a:hover {
+	text-decoration: none;
+} 
 .left-navi .active {
 	background-color:#1f253e;
 	color: #21bfd7;
@@ -211,4 +218,43 @@ html,body,.container {
 
 .transaction-title {
 	font-size:25px;
+}
+
+.exchage-graph {
+	text-align:center;
+}
+
+.orderbook-form {
+	padding:20px;
+	font-size: 16px;
+    display: block !important;
+    min-height: 200px;
+    max-height: 480px;
+    overflow: scroll;
+}
+
+.order-header {
+	height: 50px;
+    background: #d3d3d34d;
+    padding: 16px;
+    font-size: 16px;
+}
+
+.padding-top20px {
+	padding-top:20px;
+}
+
+#processOffer {
+	width: auto !important;
+	position:relative;
+	float:right;
+}
+
+.textCenter {
+	text-align:center;
+}
+
+.header-listOrder {
+	background: #d3d3d34d;
+	padding:10px;
 }

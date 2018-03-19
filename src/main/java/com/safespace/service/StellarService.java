@@ -20,4 +20,6 @@ public interface StellarService {
 	public Map<String, Object> sendPayment(Asset asset, KeyPair source, KeyPair destination, String amount, String transactionMemo) throws IOException;
 	public ArrayList<Transactions> transactionsPerAccount(String accountId);
 	public void sendPayment(String assetCode) throws IOException; 
+	public Map<String, Object> createOffer(String souceSecretSeed, Asset selling, Asset buying, String amountSell, String amountBuy, String memo);
+
 }

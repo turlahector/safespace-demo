@@ -3,7 +3,10 @@
 .DS_Store
 *.prefs
 .settings/
+*/target/*
+*/Safe Space Decentralize Exchange - Admin_files/* 
+target/classes/com/safespace/controller/AdminController.class
 target/
-target/classes/application.properties
-Safe Space Decentralize Exchange - Admin_files/
-target/classes/com/stellar/
+*.class
+target/classes/com/safespace/service/StellarService.class
+target/classes/templates/admin.html
