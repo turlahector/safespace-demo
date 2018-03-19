@@ -278,3 +278,15 @@ ul.left-navi a:hover {
 #buyAssets, #sellAssets {
 	width:100%!important;
 }
+
+.ellips {
+    white-space: nowrap; 
+    width: 100px; 
+    overflow: hidden;
+    text-overflow:ellipsis;
+    border: 1px solid #000000;
+}
+
+.ellips:hover {
+    overflow: visible;
+}

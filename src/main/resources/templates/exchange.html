@@ -19,7 +19,7 @@
 				<ul class="left-navi font-white">
 					<li ><a th:href="@{/wallet/} + ${accountId}"><img src="../../assets/icon/wallet.png" class="smallImage"   /> Wallet</a></li>
 					<li class=""><img src="../../assets/icon/account.png" class="smallImage" /> Account</li>
-					<li class="active"><a th:href="@{/exchange/} + ${accountId}"><img src="../../assets/icon/dex.png" class="smallImage smallImage activeImg" /> Decentralized Exchange</a></li>
+					<li class="active"><a th:href="@{/exchange/} + ${accountId}" class="active"><img src="../../assets/icon/dex.png" class="smallImage smallImage activeImg" /> Decentralized Exchange</a></li>
 					<li class=""><img src="../../assets/icon/send.png" class="smallImage" /> Send</li>
 					<li class=""><img src="../../assets/icon/deposit.png" class="smallImage" /> Deposit/Withdraw</li>
 					<li class=""><img src="../../assets/icon/settings.png" class="smallImage" /> Settings</li>	
@@ -133,7 +133,7 @@
 			  			
 			  			<div class="col-sm-12"><button type="button" class="btn btn-default blue-button" id="processOfferConsumer">Process Offer</button></div>
 			  			<div class="col-sm-12"><hr /></div>
-			  			<div class="order-content">
+			  			<div class="order-content" id="orderContentId">
 			  				<div class="col-sm-6">
 			  				<div class="textCenter header-listOrder">Buy offer</div>
 			  				<div class="padding-top20px">
@@ -142,31 +142,17 @@
 								  <table class="table">
 								    <thead>
 								      <tr>
-								        <th>#</th>
-								        <th>Firstname</th>
-								        <th>Lastname</th>
-								        <th>Age</th>
-								        <th>City</th>
-								        <th>Country</th>
+								        <th>Asset Code</th>
+								        <th>Asset Issuer</th>
+								        <th>Price</th>								        
 								      </tr>
 								    </thead>
-								    <tbody>
+								    <tbody th:if="${orderBook != 'empty'}" th:each="orderBook : ${orderBook}">
 								      <tr>
-								        <td>1</td>
-								        <td>Anna</td>
-								        <td>Pitt</td>
-								        <td>35</td>
-								        <td>New York</td>
-								        <td>USA</td>
-								      </tr>
-								      <tr>
-								        <td>1</td>
-								        <td>Anna</td>
-								        <td>Pitt</td>
-								        <td>35</td>
-								        <td>New York</td>
-								        <td>USA</td>
-								      </tr>
+								        <td><span th:text="${orderBook.buyingAssetCode}" ></span></td>
+								        <td><span th:text="${orderBook.buyingAssetIsuer}" ></span></td>
+								        <td><span th:text="${orderBook.buyingAmount}" ></span></td>								        
+								      </tr>								      
 								    </tbody>
 								  </table>
 								  </div>
@@ -181,31 +167,17 @@
 								  <table class="table">
 								    <thead>
 								      <tr>
-								        <th>#</th>
-								        <th>Firstname</th>
-								        <th>Lastname</th>
-								        <th>Age</th>
-								        <th>City</th>
-								        <th>Country</th>
+								        <th>Asset Code</th>
+								        <th>Asset Issuer</th>
+								        <th>Price</th>	
 								      </tr>
 								    </thead>
-								    <tbody>
+								     <tbody th:if="${orderBook != 'empty'}" th:each="orderBook : ${orderBook}">
 								      <tr>
-								        <td>1</td>
-								        <td>Anna</td>
-								        <td>Pitt</td>
-								        <td>35</td>
-								        <td>New York</td>
-								        <td>USA</td>
-								      </tr>
-								      <tr>
-								        <td>1</td>
-								        <td>Anna</td>
-								        <td>Pitt</td>
-								        <td>35</td>
-								        <td>New York</td>
-								        <td>USA</td>
-								      </tr>
+								        <td><span th:text="${orderBook.sellingAssetCode}" ></span></td>
+								        <td><span th:text="${orderBook.sellingAssetIsuer}" ></span></td>
+								        <td><span th:text="${orderBook.sellingAmount}" ></span></td>								        
+								      </tr>								      
 								    </tbody>
 								  </table>
 								  </div>

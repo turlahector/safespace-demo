@@ -129,3 +129,15 @@ body {
 	font-weight:bold;
 	padding-top:30px;
 }
+
+.ellips {
+    white-space: nowrap; 
+    width: 100px; 
+    overflow: hidden;
+    text-overflow:ellipsis;
+    border: 1px solid #000000;
+}
+
+.ellips:hover {
+    overflow: visible;
+}

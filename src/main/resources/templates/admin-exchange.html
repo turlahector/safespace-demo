@@ -142,31 +142,17 @@
 								  <table class="table">
 								    <thead>
 								      <tr>
-								        <th>#</th>
-								        <th>Firstname</th>
-								        <th>Lastname</th>
-								        <th>Age</th>
-								        <th>City</th>
-								        <th>Country</th>
+								        <th>Asset Code</th>
+								        <th>Asset Issuer</th>
+								        <th>Price</th>								        
 								      </tr>
 								    </thead>
-								    <tbody>
+								    <tbody th:if="${orderBook != 'empty'}" th:each="orderBook : ${orderBook}">
 								      <tr>
-								        <td>1</td>
-								        <td>Anna</td>
-								        <td>Pitt</td>
-								        <td>35</td>
-								        <td>New York</td>
-								        <td>USA</td>
-								      </tr>
-								      <tr>
-								        <td>1</td>
-								        <td>Anna</td>
-								        <td>Pitt</td>
-								        <td>35</td>
-								        <td>New York</td>
-								        <td>USA</td>
-								      </tr>
+								        <td><span th:text="${orderBook.buyingAssetCode}" ></span></td>
+								        <td><span class="ellips" th:text="${orderBook.buyingAssetIsuer}" ></span></td>
+								        <td><span th:text="${orderBook.buyingAmount}" ></span></td>								        
+								      </tr>								      
 								    </tbody>
 								  </table>
 								  </div>
@@ -181,31 +167,17 @@
 								  <table class="table">
 								    <thead>
 								      <tr>
-								        <th>#</th>
-								        <th>Firstname</th>
-								        <th>Lastname</th>
-								        <th>Age</th>
-								        <th>City</th>
-								        <th>Country</th>
+								        <th>Asset Code</th>
+								        <th>Asset Issuer</th>
+								        <th>Price</th>	
 								      </tr>
 								    </thead>
-								    <tbody>
+								     <tbody th:if="${orderBook != 'empty'}" th:each="orderBook : ${orderBook}">
 								      <tr>
-								        <td>1</td>
-								        <td>Anna</td>
-								        <td>Pitt</td>
-								        <td>35</td>
-								        <td>New York</td>
-								        <td>USA</td>
-								      </tr>
-								      <tr>
-								        <td>1</td>
-								        <td>Anna</td>
-								        <td>Pitt</td>
-								        <td>35</td>
-								        <td>New York</td>
-								        <td>USA</td>
-								      </tr>
+								        <td><span th:text="${orderBook.sellingAssetCode}" ></span></td>
+								        <td><span class="ellips" th:text="${orderBook.sellingAssetIsuer}" ></span></td>
+								        <td><span th:text="${orderBook.sellingAmount}" ></span></td>								        
+								      </tr>								      
 								    </tbody>
 								  </table>
 								  </div>

@@ -7,6 +7,7 @@ import java.util.Map;
 import org.stellar.sdk.Asset;
 import org.stellar.sdk.KeyPair;
 
+import com.safespace.view.OrderBook;
 import com.safespace.view.Transactions;
 import com.safespace.view.Wallet;
 
@@ -21,5 +22,7 @@ public interface StellarService {
 	public ArrayList<Transactions> transactionsPerAccount(String accountId);
 	public void sendPayment(String assetCode) throws IOException; 
 	public Map<String, Object> createOffer(String souceSecretSeed, Asset selling, Asset buying, String amountSell, String amountBuy, String memo);
+	public ArrayList<OrderBook> orderBook(String sellingAssetType, String buyingAssetType, String buyingAssetCode,
+			String sellingAssetCode, String buyingAssetIssuer, String sellingAssetIssuer);
 
 }

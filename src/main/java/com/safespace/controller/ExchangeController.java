@@ -23,7 +23,6 @@ public class ExchangeController {
 	@Autowired
 	private StellarService stellarService;
 	
-
 	@RequestMapping("/admin/exchange")
 	public ModelAndView exchange() throws IOException {
 		ModelAndView model = new ModelAndView("admin-exchange");
@@ -38,10 +37,14 @@ public class ExchangeController {
 		}else {
 			model.addObject("wallet",wallet);
 		}
-		
+		model.addObject("orderBook", stellarService.orderBook("credit_alphanum12","credit_alphanum12","customAsset","skyFlakes","GAU6F4I4ZJE6B6AMGDSAK6VJI6SAX4HBKRX4FWE2BMLWYKWSOENQVQ34","GAU6F4I4ZJE6B6AMGDSAK6VJI6SAX4HBKRX4FWE2BMLWYKWSOENQVQ34"));
+	
+
 		model.addObject("secretKey", secretKeyReciever);
 		return model;
 	}
+
+
 	
 	
 
