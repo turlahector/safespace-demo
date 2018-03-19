@@ -78,6 +78,35 @@ $( document ).ready(function() {
 	   }); 
 		
 	});
+	
+	jQuery("#sendPaymentWallet").click(function() {
+		var recipient = jQuery("#recipient").val();
+		var amount = jQuery("#amount").val();
+		var transactionMemo = jQuery("#memo").val();
+		var accountId = jQuery("#accountId").val();		
+		var assetCode = jQuery(".tokenName").text();
+		var secretCode = jQuery("#secretCode").val();
+		var jsonData = {"amount" : amount , "transactionMemo" :transactionMemo ,"accountId": accountId, "recipient" : recipient,"assetCode":assetCode,"secretCode":secretCode };
+		console.log("accountId===" + accountId);
+		console.log("recipeint===" + recipient);
+		console.log("amount===" + amount);
+		console.log("transactionMemo===" + transactionMemo);
+		console.log("assetCode==="  + assetCode);
+		console.log("secretCode===" + jsonData);
+		
+		
+		$.ajax({
+	    url : '/api/stellar/sendPaymentWallet',
+	          method: "POST",
+	          data: JSON.stringify(jsonData),
+	          contentType : 'application/json', 
+	          async: true,
+	          success : function(data) {
+				location.reload();
+	          }
+	   }); 
+		
+	});
 	 
 	
 	jQuery( ".asset-box" ).hover(function() {

@@ -143,58 +143,52 @@ public class StellarServiceImpl implements StellarService {
 		return status;
 	}
 
-	public Map<String, Object> sendTransaction(Asset asset, KeyPair source, KeyPair destination, String amount,
+	public Map<String, Object> sendTransaction(Asset asset, KeyPair sourceSecret, KeyPair destinationAccount, String amount,
 			String transactionMemo) {
 		Map<String, Object> status = new HashMap<String, Object>();
 		Network.useTestNetwork();
-		Server server = new Server(network);
+		Server server = new Server("https://horizon-testnet.stellar.org");
+
+//		KeyPair source = KeyPair.fromSecretSeed("SCFLETXVOZXIBBMQU26EEXXVYZQF44LE4SAEALUWPONZ6DKKJ5EHBPAB");
+//		KeyPair destination = KeyPair.fromAccountId("GBOM7QDTWF66QB4WE3ETWUPKBSYSH2ZVKWY5YADDW72BWXRWMZDKZGKX");
 
 		// First, check to make sure that the destination account exists.
-		// You could skip this, but if the account does not exist, you will be
-		// charged
+		// You could skip this, but if the account does not exist, you will be charged
 		// the transaction fee when the transaction fails.
-		// It will throw HttpResponseException if account does not exist or
-		// there was another error.
+		// It will throw HttpResponseException if account does not exist or there was another error.
+		AccountResponse sourceAccount = null;
 		try {
-			server.accounts().account(destination);
+			server.accounts().account(destinationAccount);
+			sourceAccount =  server.accounts().account(sourceSecret);
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
-			status.put("status", e1.getMessage());
+			e1.printStackTrace();
 		}
 
 		// If there was no error, load up-to-date information on your account.
-		AccountResponse sourceAccount = null;
-		try {
-			sourceAccount = server.accounts().account(source);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			status.put("status", e1.getMessage());
-		}
+		
 
 		// Start building the transaction.
 		Transaction transaction = new Transaction.Builder(sourceAccount)
-				.addOperation(new PaymentOperation.Builder(destination, asset, amount).build())
-				// A memo allows you to add your own metadata to a transaction.
-				// It's
-				// optional and does not affect how Stellar treats the
-				// transaction.
-				.addMemo(Memo.text(transactionMemo)).build();
+		        .addOperation(new PaymentOperation.Builder(destinationAccount, asset, amount).build())
+		        // A memo allows you to add your own metadata to a transaction. It's
+		        // optional and does not affect how Stellar treats the transaction.
+		        .addMemo(Memo.text(transactionMemo))
+		        .build();
 		// Sign the transaction to prove you are actually the person sending it.
-		transaction.sign(source);
+		transaction.sign(sourceSecret);
 
 		// And finally, send it off to Stellar!
 		try {
-			SubmitTransactionResponse response = server.submitTransaction(transaction);
-			System.out.println("Success!");
-			System.out.println(response);
-			status.put("status", "success");
+		  SubmitTransactionResponse response = server.submitTransaction(transaction);
+		  System.out.println("Success!");
+		  System.out.println(response);
 		} catch (Exception e) {
-			status.put("status", e.getMessage());
-			// If the result is unknown (no response body, timeout etc.) we
-			// simply resubmit
-			// already built transaction:
-			// SubmitTransactionResponse response =
-			// server.submitTransaction(transaction);
+		  System.out.println("Something went wrong!");
+		  System.out.println(e.getMessage());
+		  // If the result is unknown (no response body, timeout etc.) we simply resubmit
+		  // already built transaction:
+		  // SubmitTransactionResponse response = server.submitTransaction(transaction);
 		}
 		return status;
 	}

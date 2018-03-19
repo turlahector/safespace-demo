@@ -2,7 +2,6 @@ package com.safespace.controller;
 
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.slf4j.LoggerFactory;
@@ -82,6 +81,7 @@ public class StellarController {
 		
 		return stellarService.sendPayment(customAsset, issuingKeysSecret, receivingKeysSecret, amount, transactionMemo);
 	}
+
 	
 	@RequestMapping(value="/createOffer/{souceSecretSeed}/{assetCodeSell}/{assetAmountSell}/{assetCodeBuy}/{assetAmountBuy}/{transactionMemo}", method=RequestMethod.POST)
 		public Map<String, Object> createOffer(
@@ -106,4 +106,25 @@ public class StellarController {
 			}
 			return stellarService.createOffer(souceSecretSeed, customAssetSell, customAssetBuy, assetAmountSell, assetAmountBuy, transactionMemo);
 		}
+
+	@RequestMapping(value="/sendPaymentWallet", method=RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public Map<String, Object> sendPaymentWallet(@RequestBody String requestBody){
+		Gson gson = new Gson();
+		JsonElement element = gson.fromJson (requestBody, JsonElement.class);
+		JsonObject requestJson = element.getAsJsonObject();
+		String amount = requestJson.get("amount").getAsString();
+		String assetCode = requestJson.get("assetCode").getAsString();
+		KeyPair sourceSecret = KeyPair.fromSecretSeed(requestJson.get("secretCode").getAsString());
+		KeyPair destinationAccount = KeyPair.fromAccountId(requestJson.get("recipient").getAsString());
+		KeyPair assetIssuingKeys = KeyPair.fromSecretSeed("SAZQCB5OJW422LVOMD2V3YUE6627BSPEOE3Y4C3OENTIXI2FI5VM52KO");
+		String transactionMemo = requestJson.get("transactionMemo").getAsString();
+		Asset customAsset = Asset.createNonNativeAsset(assetCode, assetIssuingKeys);
+		
+		if (assetCode == "LUMENS") {
+			customAsset = new AssetTypeNative();
+		}
+		return stellarService.sendTransaction(customAsset, sourceSecret, destinationAccount, amount, transactionMemo);
+	}
+			
+
 }
