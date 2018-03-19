@@ -4,8 +4,10 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.stellar.sdk.Asset;
 import org.stellar.sdk.KeyPair;
 
 import com.safespace.service.StellarService;
@@ -33,10 +35,15 @@ public class ExchangeController {
 	
 	@RequestMapping("/admin/exchange")
 	public ModelAndView exchange() throws IOException {
+		return exchange("skyFlakes","customAsset");
+	}
+	
+	@RequestMapping("/admin/exchange/{sellAsset}/{buyAsset}")
+	public ModelAndView exchange(@PathVariable ("sellAsset")String sellType,@PathVariable ("buyAsset")String buyAssetType) throws IOException {
 		ModelAndView model = new ModelAndView("admin-exchange");
 		
 		KeyPair keyPair =KeyPair.fromAccountId(publicKeyReciever);
-		
+		KeyPair issuerKeyPair =KeyPair.fromAccountId(publicKeyIssuer);
 		model.addObject("accountId", publicKeyReciever);
 		//stellarService.requestFreeLumen(accountId);
 		Wallet wallet = stellarService.getWalletDetails(keyPair);
@@ -45,19 +52,15 @@ public class ExchangeController {
 		}else {
 			model.addObject("wallet",wallet);
 		}
-		model.addObject("orderBook", stellarService.orderBook("credit_alphanum12","credit_alphanum12","customAsset","skyFlakes",publicKeyIssuer,publicKeyIssuer));
+		
+		model.addObject("orderBook", stellarService.orderBook(buyAssetType,sellType,publicKeyIssuer,publicKeyIssuer));
 		
 		model.addObject("secretKey", secretKeyReciever);
 		return model;
 	}
 	
-	@RequestMapping("/admin/reload_exchange")
-	public ModelAndView reloadExchange() throws IOException {
-		ModelAndView model = new ModelAndView("admin-exchange");
-		model.addObject("orderBook", stellarService.orderBook("credit_alphanum12","credit_alphanum12","customAsset","lumens",publicKeyIssuer,publicKeyIssuer));
-		return model;
-		
-	}
+	
+	
 
 
 	

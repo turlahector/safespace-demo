@@ -22,7 +22,7 @@ public interface StellarService {
 	public ArrayList<Transactions> transactionsPerAccount(String accountId);
 	public void sendPayment(String assetCode) throws IOException; 
 	public Map<String, Object> createOffer(String souceSecretSeed, Asset selling, Asset buying, String amountSell, String amountBuy, String memo);
-	public OrderBook orderBook(String sellingAssetType, String buyingAssetType, String buyingAssetCode,
+	public OrderBook orderBook(String buyingAssetCode,
 			String sellingAssetCode, String buyingAssetIssuer, String sellingAssetIssuer);
 
 }

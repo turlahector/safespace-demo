@@ -407,13 +407,14 @@ public class StellarServiceImpl implements StellarService {
 
 	}
 
-	public OrderBook orderBook(String sellingAssetType, String buyingAssetType, String buyingAssetCode,
+	public OrderBook orderBook(String buyingAssetCode,
 			String sellingAssetCode, String buyingAssetIssuer, String sellingAssetIssuer) {
-		
-
+		KeyPair issuerKeyPair =KeyPair.fromAccountId(buyingAssetIssuer);
+		Asset sellAsset = Asset.createNonNativeAsset(sellingAssetCode, issuerKeyPair);
+		Asset buyAsset = Asset.createNonNativeAsset(buyingAssetCode, issuerKeyPair);
 		
 		InputStream response = null;
-		String buyerUrl = orderBookUrlBuilder(sellingAssetType, buyingAssetType, buyingAssetCode, sellingAssetCode, buyingAssetIssuer, sellingAssetIssuer);
+		String buyerUrl = orderBookUrlBuilder(sellAsset.getType(), buyAsset.getType(), buyingAssetCode, sellingAssetCode, buyingAssetIssuer, sellingAssetIssuer);
 				
 				Gson gson = new Gson();
 				OrderBook orderBook = null;
@@ -440,7 +441,7 @@ public class StellarServiceImpl implements StellarService {
 			e.printStackTrace();
 		}
 	    try {
-		    String sellerUrl = orderBookUrlBuilder(sellingAssetType, buyingAssetType, sellingAssetCode,buyingAssetCode, buyingAssetIssuer, sellingAssetIssuer);
+		    String sellerUrl = orderBookUrlBuilder(buyAsset.getType(),sellAsset.getType(),  sellingAssetCode,buyingAssetCode, buyingAssetIssuer, sellingAssetIssuer);
 		    response = new URL(sellerUrl).openStream();
 			String returnString = IOUtils.toString(response);
 			JsonElement element = gson.fromJson (returnString, JsonElement.class);
