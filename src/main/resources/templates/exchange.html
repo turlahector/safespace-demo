@@ -159,11 +159,11 @@
 								        <th>Price</th>								        
 								      </tr>
 								    </thead>
-								    <tbody th:if="${orderBook != 'empty'}" th:each="orderBook : ${orderBook}">
+								    <tbody th:if="${buyOrderBook != 'empty'}" th:each="buyOrderBook : ${buyOrderBook}">
 								      <tr>
-								        <td><span th:text="${orderBook.buyingAssetCode}" ></span></td>
-								        <td><span th:text="${orderBook.buyingAssetIsuer}" ></span></td>
-								        <td><span th:text="${orderBook.buyingAmount}" ></span></td>								        
+								        <td><span th:text="${buyOrderBook.buyingAssetCode}" ></span></td>
+								        <td><span class="ellips" th:text="${buyOrderBook.buyingAssetIsuer}" ></span></td>
+								        <td><span th:text="${buyOrderBook.buyingAmount}" ></span></td>								        
 								      </tr>								      
 								    </tbody>
 								  </table>
@@ -192,11 +192,11 @@
 								        <th>Price</th>	
 								      </tr>
 								    </thead>
-								     <tbody th:if="${orderBook != 'empty'}" th:each="orderBook : ${orderBook}">
+								     <tbody th:if="${sellOrderBook != 'empty'}" th:each="sellOrderBook : ${sellOrderBook}">
 								      <tr>
-								        <td><span th:text="${orderBook.sellingAssetCode}" ></span></td>
-								        <td><span th:text="${orderBook.sellingAssetIsuer}" ></span></td>
-								        <td><span th:text="${orderBook.sellingAmount}" ></span></td>								        
+								        <td><span th:text="${sellOrderBook.sellingAssetCode}" ></span></td>
+								        <td><span class="ellips" th:text="${sellOrderBook.sellingAssetIsuer}" ></span></td>
+								        <td><span th:text="${sellOrderBook.sellingAmount}" ></span></td>								        
 								      </tr>								      
 								    </tbody>
 								  </table>

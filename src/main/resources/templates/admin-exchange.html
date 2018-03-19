@@ -137,25 +137,43 @@
 			  			
 			  			<div class="col-sm-12"><button type="button" class="btn btn-default blue-button" id="processOffer">Process Offer</button></div>
 			  			<div class="col-sm-12"><hr /></div>
-			  			<div class="order-content">
+			  			<div class="order-content" id="buySellContent">
 			  				<div class="col-sm-6">
 			  				<div class="textCenter header-listOrder">Buy offer</div>
+			  				<div class="textCenter">
+									<div class="form-group">
+			  							<div class="container">
+											 <div class="dropdown">
+											   <button class="btn btn-default dropdown-toggle dd_assets" type="button"  data-toggle="dropdown" id="dd_buyerOffer">MVPToken
+											   <span class="caret"></span></button>
+											   <ul class="dropdown-menu" role="menu" aria-labelledby="menu1" id="buyOfferAssets" >
+											     <li role="presentation" th:each="asset : ${wallet.assetList}" ><a role="menuitem" tabindex="-1" th:text="${asset.assetCode}" >HTML</a></li>
+											     
+											   </ul>
+											 </div>
+										</div>
+									</div>
+							</div>
 			  				<div class="padding-top20px">
 			  					<div class="container">
 								  <div class="table-responsive">          
 								  <table class="table">
 								    <thead>
 								      <tr>
-								        <th>Asset Code</th>
-								        <th>Asset Issuer</th>
+								      	<th>#</th>
+								      	 <th>Sum XLM</th>
+								        <th><span th:text="${orderBook.fromCode}" ></span></th>
+								        <th><span th:text="${orderBook.toCode}" ></span></th>
 								        <th>Price</th>								        
 								      </tr>
 								    </thead>
-								    <tbody th:if="${orderBook != 'empty'}" th:each="orderBook : ${orderBook}">
+								    <tbody th:if="${orderBook != 'empty'}" th:each="buyPrices ,iter: ${orderBook.buyPrices}">
 								      <tr>
-								        <td><span th:text="${orderBook.buyingAssetCode}" ></span></td>
-								        <td><span class="ellips" th:text="${orderBook.buyingAssetIsuer}" ></span></td>
-								        <td><span th:text="${orderBook.buyingAmount}" ></span></td>								        
+								        <td><span th:text="${iter.index +1}" ></span></td>
+								        <td>-</td>	
+								        <td><span th:text="${buyPrices.fromPrice}" ></span></td>
+								        <td><span th:text="${buyPrices.toPrice}" ></span></td>
+								        <td>-</td>								        
 								      </tr>								      
 								    </tbody>
 								  </table>
@@ -165,22 +183,40 @@
 			  			</div>
 			  			<div class="col-sm-6">
 			  				<div class="textCenter header-listOrder">Sell offer</div>
+			  				<div class="textCenter">
+									<div class="form-group">
+			  							<div class="container">
+											 <div class="dropdown">
+											   <button class="btn btn-default dropdown-toggle dd_assets" type="button"  data-toggle="dropdown" id="dd_sellerOffer">MVPToken
+											   <span class="caret"></span></button>
+											   <ul class="dropdown-menu" role="menu" aria-labelledby="menu1" id="sellOfferAsset" >
+											     <li role="presentation" th:each="asset : ${wallet.assetList}" ><a role="menuitem" tabindex="-1" th:text="${asset.assetCode}" >HTML</a></li>
+											     
+											   </ul>
+											 </div>
+										</div>
+									</div>
+							</div>
 			  				<div class="padding-top20px">
 			  					<div class="container">
 								  <div class="table-responsive">          
 								  <table class="table">
 								    <thead>
 								      <tr>
-								        <th>Asset Code</th>
-								        <th>Asset Issuer</th>
+								      	<th>#</th>
+								        <th>Sum XLM</th>
+								        <th><span th:text="${orderBook.toCode}" ></span></th>
+								        <th><span th:text="${orderBook.fromCode}" ></span></th>
 								        <th>Price</th>	
 								      </tr>
 								    </thead>
-								     <tbody th:if="${orderBook != 'empty'}" th:each="orderBook : ${orderBook}">
+								     <tbody th:if="${sellOrderBook != 'empty'}" th:each="sellPrices,iter: ${orderBook.sellPrices}">
 								      <tr>
-								        <td><span th:text="${orderBook.sellingAssetCode}" ></span></td>
-								        <td><span class="ellips" th:text="${orderBook.sellingAssetIsuer}" ></span></td>
-								        <td><span th:text="${orderBook.sellingAmount}" ></span></td>								        
+								      	<td><span th:text="${iter.index +1}" ></span></td>
+								        <td>-</td>
+								        <td><span th:text="${sellPrices.fromPrice}" ></span></td>
+								        <td><span th:text="${sellPrices.toPrice}" ></span></td>
+								        <td>-</td>								        
 								      </tr>								      
 								    </tbody>
 								  </table>

@@ -26,6 +26,7 @@ public class ExchangeController {
 		
 	@Value("${receiver.privateKey}")
 	private String secretKeyReciever;
+
 	
 	@Autowired
 	private StellarService stellarService;
@@ -44,11 +45,18 @@ public class ExchangeController {
 		}else {
 			model.addObject("wallet",wallet);
 		}
-		model.addObject("orderBook", stellarService.orderBook("credit_alphanum12","credit_alphanum12","customAsset","skyFlakes","GAU6F4I4ZJE6B6AMGDSAK6VJI6SAX4HBKRX4FWE2BMLWYKWSOENQVQ34","GAU6F4I4ZJE6B6AMGDSAK6VJI6SAX4HBKRX4FWE2BMLWYKWSOENQVQ34"));
-	
-
+		model.addObject("orderBook", stellarService.orderBook("credit_alphanum12","credit_alphanum12","customAsset","skyFlakes",publicKeyIssuer,publicKeyIssuer));
+		
 		model.addObject("secretKey", secretKeyReciever);
 		return model;
+	}
+	
+	@RequestMapping("/admin/reload_exchange")
+	public ModelAndView reloadExchange() throws IOException {
+		ModelAndView model = new ModelAndView("admin-exchange");
+		model.addObject("orderBook", stellarService.orderBook("credit_alphanum12","credit_alphanum12","customAsset","lumens",publicKeyIssuer,publicKeyIssuer));
+		return model;
+		
 	}
 
 

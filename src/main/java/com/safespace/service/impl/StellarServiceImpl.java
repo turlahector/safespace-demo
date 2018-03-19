@@ -33,6 +33,7 @@ import com.safespace.service.StellarService;
 import com.safespace.view.Assets;
 import com.safespace.view.KeyPairView;
 import com.safespace.view.OrderBook;
+import com.safespace.view.OrderPrices;
 import com.safespace.view.Transactions;
 import com.safespace.view.Wallet;
 import com.stellar.StellarUtil;
@@ -406,13 +407,70 @@ public class StellarServiceImpl implements StellarService {
 
 	}
 
-	public ArrayList<OrderBook> orderBook(String sellingAssetType, String buyingAssetType, String buyingAssetCode,
+	public OrderBook orderBook(String sellingAssetType, String buyingAssetType, String buyingAssetCode,
 			String sellingAssetCode, String buyingAssetIssuer, String sellingAssetIssuer) {
+		
+
+		
+		InputStream response = null;
+		String buyerUrl = orderBookUrlBuilder(sellingAssetType, buyingAssetType, buyingAssetCode, sellingAssetCode, buyingAssetIssuer, sellingAssetIssuer);
+				
+				Gson gson = new Gson();
+				OrderBook orderBook = null;
+	    try {
+			
+	    	response = new URL(buyerUrl).openStream();
+			String returnString = IOUtils.toString(response);
+			JsonElement element = gson.fromJson (returnString, JsonElement.class);
+			JsonObject requestJson = element.getAsJsonObject();
+			orderBook = 	new OrderBook(requestJson.get("base").getAsJsonObject(),requestJson.get("counter").getAsJsonObject());
+			JsonArray askArray = requestJson.get("asks").getAsJsonArray();
+			if(!askArray.isJsonNull()){
+				for(JsonElement askElement : askArray){
+					OrderPrices book = new OrderPrices();
+					JsonObject askObject = askElement.getAsJsonObject(); 
+					book.setFromPrice(askObject.get("amount").getAsString());
+					book.setToPrice(askObject.get("price").getAsString());
+					orderBook.getBuyPrices().add(book);
+				}
+			}
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    try {
+		    String sellerUrl = orderBookUrlBuilder(sellingAssetType, buyingAssetType, sellingAssetCode,buyingAssetCode, buyingAssetIssuer, sellingAssetIssuer);
+		    response = new URL(sellerUrl).openStream();
+			String returnString = IOUtils.toString(response);
+			JsonElement element = gson.fromJson (returnString, JsonElement.class);
+			JsonObject requestJson = element.getAsJsonObject();
+			JsonArray bids = requestJson.get("bids").getAsJsonArray();
+			if(null == orderBook){
+				orderBook = new OrderBook(requestJson.get("base").getAsJsonObject(),requestJson.get("counter").getAsJsonObject());
+			}
+			if(!bids.isJsonNull()){
+				for(JsonElement askElement : bids){
+					OrderPrices book = new OrderPrices();
+					JsonObject askObject = askElement.getAsJsonObject(); 
+					book.setFromPrice(askObject.get("amount").getAsString());
+					book.setToPrice(askObject.get("price").getAsString());
+					orderBook.getSellPrices().add(book);
+				}
+			}
+	    } catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return orderBook;
+	}
+	
+	private String orderBookUrlBuilder (String sellingAssetType, String buyingAssetType, String buyingAssetCode,
+			String sellingAssetCode, String buyingAssetIssuer, String sellingAssetIssuer){
 		StringBuilder stellarUrl = new StringBuilder(network);
 		stellarUrl.append("/order_book?");
 		stellarUrl.append("selling_asset_type=");
 		stellarUrl.append(sellingAssetType);
-		ArrayList<OrderBook> orderBookList =new ArrayList<OrderBook>();
 		if (!sellingAssetType.equalsIgnoreCase("native")) {			
 			stellarUrl.append("&selling_asset_code=");
 			stellarUrl.append(sellingAssetCode);
@@ -427,32 +485,6 @@ public class StellarServiceImpl implements StellarService {
 			stellarUrl.append("&buying_asset_issuer=");
 			stellarUrl.append(buyingAssetIssuer);
 		}
-		InputStream response = null;
-		try {
-			response = new URL(stellarUrl.toString()).openStream();
-			String returnString = IOUtils.toString(response);
-			System.out.println(returnString);
-			Gson gson = new Gson();
-			JsonElement element = gson.fromJson (returnString, JsonElement.class);
-			JsonObject requestJson = element.getAsJsonObject();
-			//selling
-			JsonObject selling =  requestJson.get("base").getAsJsonObject();
-			//buying
-			JsonObject buying =requestJson.get("counter").getAsJsonObject();
-			JsonArray askArray = requestJson.get("asks").getAsJsonArray();
-			if(!askArray.isJsonNull()){
-				for(JsonElement askElement : askArray){
-					OrderBook book = new OrderBook(selling,buying);
-					JsonObject askObject = askElement.getAsJsonObject(); 
-					book.setSellingAmount(askObject.get("amount").getAsString());
-					book.setBuyingAmount(askObject.get("price").getAsString());
-					orderBookList.add(book);
-				}
-			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return orderBookList;
+		return stellarUrl.toString();
 	}
 }

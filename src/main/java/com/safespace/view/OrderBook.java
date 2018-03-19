@@ -1,84 +1,61 @@
 package com.safespace.view;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gson.JsonObject;
 
 public class OrderBook {
 	
-	private String sellingAssetType;
-	private String sellingAssetCode;
-	private String sellingAssetIsuer;
-	private String buyingAssetType;
-	private String buyingAssetCode;
-	private String buyingAssetIsuer;
-	private String buyingAmount;
-	private String sellingAmount;
+	
+	private String fromCode;
+	private String toCode;
+	
+	private List<OrderPrices> buyPrices = new ArrayList<OrderPrices>();
+	private List<OrderPrices> sellPrices = new ArrayList<OrderPrices>();
 	
 	public OrderBook(){
 		
 	}
 	public OrderBook(JsonObject selling,JsonObject buying){
 		if(!selling.isJsonNull()){
-			this.sellingAssetCode = "LUMENS";
+			this.fromCode = "XLM";
 			if(!selling.get("asset_type").getAsString().equalsIgnoreCase("native")){
-				this.sellingAssetCode = selling.get("asset_code").getAsString();
-				this.sellingAssetIsuer = selling.get("asset_issuer").getAsString();
+				this.fromCode = selling.get("asset_code").getAsString();
+				
 			}
 		}
 		if(!buying.isJsonNull()){
-			this.buyingAssetCode = "LUMENS";
+			this.toCode = "XLM";
 			if(!buying.get("asset_type").getAsString().equalsIgnoreCase("native")){
-				this.buyingAssetCode = buying.get("asset_code").getAsString();
-				this.buyingAssetIsuer = buying.get("asset_issuer").getAsString();  
+				this.toCode = buying.get("asset_code").getAsString(); 
 			}			
 		}
 	}
-	public String getSellingAssetType() {
-		return sellingAssetType;
+	
+	public String getFromCode() {
+		return fromCode;
 	}
-	public void setSellingAssetType(String sellingAssetType) {
-		this.sellingAssetType = sellingAssetType;
+	public void setFromCode(String fromCode) {
+		this.fromCode = fromCode;
 	}
-	public String getSellingAssetCode() {
-		return sellingAssetCode;
+	public String getToCode() {
+		return toCode;
 	}
-	public void setSellingAssetCode(String sellingAssetCode) {
-		this.sellingAssetCode = sellingAssetCode;
+	public void setToCode(String toCode) {
+		this.toCode = toCode;
 	}
-	public String getSellingAssetIsuer() {
-		return sellingAssetIsuer;
+	public List<OrderPrices> getBuyPrices() {
+		return buyPrices;
 	}
-	public void setSellingAssetIsuer(String sellingAssetIsuer) {
-		this.sellingAssetIsuer = sellingAssetIsuer;
+	public void setBuyPrices(List<OrderPrices> buyPrices) {
+		this.buyPrices = buyPrices;
 	}
-	public String getBuyingAssetType() {
-		return buyingAssetType;
+	public List<OrderPrices> getSellPrices() {
+		return sellPrices;
 	}
-	public void setBuyingAssetType(String buyingAssetType) {
-		this.buyingAssetType = buyingAssetType;
-	}
-	public String getBuyingAssetCode() {
-		return buyingAssetCode;
-	}
-	public void setBuyingAssetCode(String buyingAssetCode) {
-		this.buyingAssetCode = buyingAssetCode;
-	}
-	public String getBuyingAssetIsuer() {
-		return buyingAssetIsuer;
-	}
-	public void setBuyingAssetIsuer(String buyingAssetIsuer) {
-		this.buyingAssetIsuer = buyingAssetIsuer;
-	}
-	public String getBuyingAmount() {
-		return buyingAmount;
-	}
-	public void setBuyingAmount(String buyingAmount) {
-		this.buyingAmount = buyingAmount;
-	}
-	public String getSellingAmount() {
-		return sellingAmount;
-	}
-	public void setSellingAmount(String sellingAmount) {
-		this.sellingAmount = sellingAmount;
+	public void setSellPrices(List<OrderPrices> sellPrices) {
+		this.sellPrices = sellPrices;
 	}
 
 }

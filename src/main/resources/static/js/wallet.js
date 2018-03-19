@@ -185,6 +185,17 @@ $( document ).ready(function() {
 		$("#dd_sellButton").text($(this).text());
 		
 	});
+	
+	jQuery("#sellOfferAsset li").click(function() {
+		console.log();
+		$("#dd_sellerOffer").text($(this).text());
+		
+	});
+	
+	jQuery("#buyOfferAssets li").click(function() {
+		$("#dd_buyerOffer").text($(this).text());
+		
+	});
 
 });
  
