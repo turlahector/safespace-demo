@@ -425,9 +425,9 @@ public class StellarServiceImpl implements StellarService {
 			JsonElement element = gson.fromJson (returnString, JsonElement.class);
 			JsonObject requestJson = element.getAsJsonObject();
 			orderBook = 	new OrderBook(requestJson.get("base").getAsJsonObject(),requestJson.get("counter").getAsJsonObject());
-			JsonArray askArray = requestJson.get("asks").getAsJsonArray();
-			if(!askArray.isJsonNull()){
-				for(JsonElement askElement : askArray){
+			JsonArray bids = requestJson.get("bids").getAsJsonArray();
+			if(!bids.isJsonNull()){
+				for(JsonElement askElement : bids){
 					OrderPrices book = new OrderPrices();
 					JsonObject askObject = askElement.getAsJsonObject(); 
 					book.setFromPrice(askObject.get("amount").getAsString());
@@ -446,12 +446,12 @@ public class StellarServiceImpl implements StellarService {
 			String returnString = IOUtils.toString(response);
 			JsonElement element = gson.fromJson (returnString, JsonElement.class);
 			JsonObject requestJson = element.getAsJsonObject();
-			JsonArray bids = requestJson.get("bids").getAsJsonArray();
+			JsonArray asks = requestJson.get("asks").getAsJsonArray();
 			if(null == orderBook){
 				orderBook = new OrderBook(requestJson.get("base").getAsJsonObject(),requestJson.get("counter").getAsJsonObject());
 			}
-			if(!bids.isJsonNull()){
-				for(JsonElement askElement : bids){
+			if(!asks.isJsonNull()){
+				for(JsonElement askElement : asks){
 					OrderPrices book = new OrderPrices();
 					JsonObject askObject = askElement.getAsJsonObject(); 
 					book.setFromPrice(askObject.get("amount").getAsString());
