@@ -446,7 +446,7 @@ public class StellarServiceImpl implements StellarService {
 			String returnString = IOUtils.toString(response);
 			JsonElement element = gson.fromJson (returnString, JsonElement.class);
 			JsonObject requestJson = element.getAsJsonObject();
-			JsonArray asks = requestJson.get("asks").getAsJsonArray();
+			JsonArray asks = requestJson.get("bids").getAsJsonArray();
 			if(null == orderBook){
 				orderBook = new OrderBook(requestJson.get("base").getAsJsonObject(),requestJson.get("counter").getAsJsonObject());
 			}

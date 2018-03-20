@@ -126,8 +126,8 @@ $( document ).ready(function() {
 
 	jQuery("#processOffer").click(function() {
 		var sourceSecretKey = jQuery("#secretKey").val();
-		var assetCodeSell = $("#dd_sellButton").text();
-		var assetCodeBuy =  $("#dd_buyButton").text();
+		var assetCodeSell = $.trim($("#dd_sellButton").text());
+		var assetCodeBuy =  $.trim($("#dd_buyButton").text());
 		var assetAmountSell = jQuery("#amountSell").val();
 		var assetAmountBuy = jQuery("#amountBuy").val();
 		var transactionMemo = jQuery("#memo").val();
@@ -153,8 +153,8 @@ $( document ).ready(function() {
 	jQuery("#processOfferConsumer").click(function() {
 		var accountId = jQuery("#accountId").val();
 		var sourceSecretKey = getCookie(accountId);
-		var assetCodeSell = $("#dd_sellButton").text();
-		var assetCodeBuy =  $("#dd_buyButton").text();
+		var assetCodeSell = $.trim($("#dd_sellButton").text());
+		var assetCodeBuy =  $.trim($("#dd_buyButton").text());
 		var assetAmountSell = jQuery("#amountSell").val();
 		var assetAmountBuy = jQuery("#amountBuy").val();
 		var transactionMemo = jQuery("#memo").val();
@@ -187,17 +187,34 @@ $( document ).ready(function() {
 	});
 	
 	jQuery("#sellOfferAsset li").click(function() {
-		console.log();
-		$("#dd_sellerOffer").text($(this).text());
+		$("#dd_sellOffer").text($(this).text());
+		location.href = "/admin/exchange/"+jQuery.trim($("#dd_sellerOffer").text())+"/"+jQuery.trim($("#dd_buyerOffer").text()) ;
 		
 	});
 	
 	jQuery("#buyOfferAssets li").click(function() {
 		$("#dd_buyerOffer").text($(this).text());
+		location.href = "/admin/exchange/"+jQuery.trim($("#dd_sellerOffer").text())+"/"+jQuery.trim($("#dd_buyerOffer").text()) ;
 		
 	});
-
+	setExchangeDefaults();
 });
+
+function setExchangeDefaults(){
+	var url = window.location.href;
+	var arr=url.split('/');
+	for(var i = 0;i < arr.length;i++){
+		try{
+			if(arr[i]==='admin' && arr[i+1]==='exchange'){
+				$("#dd_sellOffer").text(arr[3]);
+				
+				$("#dd_sellOffer").text(arr[4]);
+			}
+		} catch(err){
+			
+		}
+	}
+}
  
 
 
