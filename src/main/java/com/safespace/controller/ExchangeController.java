@@ -2,6 +2,7 @@ package com.safespace.controller;
 
 import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,12 +14,18 @@ import com.safespace.view.Wallet;
 @Controller
 public class ExchangeController {
 
-	//issuer keys
-	private String publicKeyIssuer = "GBHQNJK3JTTFLHCNLCRV3IZ4LZNQQJUHDGQ2U7VQJHW2EPL2P2MPWZLW";
-	private String secretKeyIssuer = "SAPLRJE2N5PUPZRVXFXZVQ2FSZJMMWWSRSLB5BNUWEMKONRZ63NCZO3P";
-	
-	private String publicKeyReciever = "GAZVQ4RPBY3LRCGAZLAMT4UOUM3HGVF7O7L3JPIOBWFSUDQW4N3JTX2F";
-	private String secretKeyReciever = "SBGKAZYOHY5VTMXRJCOXGYCBNQKXBOOZVA2H4VVZAAXCQBOXIWWFLGP7";
+	@Value("${issuer.publicKey}")
+	private String publicKeyIssuer;
+		
+	@Value("${issuer.privateKey}")
+	private String secretKeyIssuer;
+		
+		
+	@Value("${receiver.publicKey}")
+	private String publicKeyReciever;
+		
+	@Value("${receiver.privateKey}")
+	private String secretKeyReciever;
 	
 	@Autowired
 	private StellarService stellarService;

@@ -87,7 +87,7 @@ $( document ).ready(function() {
 		var transactionMemo = jQuery("#memo").val();
 		var accountId = jQuery("#accountId").val();		
 		var assetCode = jQuery(".tokenName").text();
-		var secretCode = jQuery("#secretCode").val();
+		var secretCode = getCookie(accountId);
 		var jsonData = {"amount" : amount , "transactionMemo" :transactionMemo ,"accountId": accountId, "recipient" : recipient,"assetCode":assetCode,"secretCode":secretCode };
 		console.log("accountId===" + accountId);
 		console.log("recipeint===" + recipient);

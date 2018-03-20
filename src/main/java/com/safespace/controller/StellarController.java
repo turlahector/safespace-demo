@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,13 +32,18 @@ public class StellarController {
 	final static Logger logger = (Logger) LoggerFactory.getLogger(StellarController.class);
 	public StellarUtil stellarUtil = new StellarUtil();
 	
-	//issuer keys
-	private String publicKeyIssuer = "GBHQNJK3JTTFLHCNLCRV3IZ4LZNQQJUHDGQ2U7VQJHW2EPL2P2MPWZLW";
-	private String secretKeyIssuer = "SAPLRJE2N5PUPZRVXFXZVQ2FSZJMMWWSRSLB5BNUWEMKONRZ63NCZO3P";
+	@Value("${issuer.publicKey}")
+	private String publicKeyIssuer;
 		
-	private String publicKeyReciever = "GAZVQ4RPBY3LRCGAZLAMT4UOUM3HGVF7O7L3JPIOBWFSUDQW4N3JTX2F";
-	private String secretKeyReciever = "SBGKAZYOHY5VTMXRJCOXGYCBNQKXBOOZVA2H4VVZAAXCQBOXIWWFLGP7";
-	
+	@Value("${issuer.privateKey}")
+	private String secretKeyIssuer;
+		
+		
+	@Value("${receiver.publicKey}")
+	private String publicKeyReciever;
+		
+	@Value("${receiver.privateKey}")
+	private String secretKeyReciever;
 	@Autowired
 	private StellarService stellarService;
 	
@@ -96,7 +102,7 @@ public class StellarController {
 			
 			Asset customAssetSell = Asset.createNonNativeAsset(assetCodeSell, issuer);
 			Asset customAssetBuy = Asset.createNonNativeAsset(assetCodeBuy, issuer);
-			
+		
 			if (assetCodeSell.equalsIgnoreCase("LUMENS")) {
 				customAssetSell = new AssetTypeNative();			
 			}
@@ -116,7 +122,7 @@ public class StellarController {
 		String assetCode = requestJson.get("assetCode").getAsString();
 		KeyPair sourceSecret = KeyPair.fromSecretSeed(requestJson.get("secretCode").getAsString());
 		KeyPair destinationAccount = KeyPair.fromAccountId(requestJson.get("recipient").getAsString());
-		KeyPair assetIssuingKeys = KeyPair.fromSecretSeed("SAZQCB5OJW422LVOMD2V3YUE6627BSPEOE3Y4C3OENTIXI2FI5VM52KO");
+		KeyPair assetIssuingKeys = KeyPair.fromSecretSeed(secretKeyIssuer);
 		String transactionMemo = requestJson.get("transactionMemo").getAsString();
 		Asset customAsset = Asset.createNonNativeAsset(assetCode, assetIssuingKeys);
 		

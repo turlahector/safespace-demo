@@ -70,11 +70,13 @@
 			  						<div class="container">
 										 <div class="dropdown">
 										 <input type="hidden" id="secretKey" th:value="${secretKey}" />
-										   <button class="btn btn-default dropdown-toggle dd_assets" type="button"  data-toggle="dropdown" id="dd_buyButton">Lumens
+										   <button class="btn btn-default dropdown-toggle dd_assets" type="button"  data-toggle="dropdown" id="dd_buyButton">Buy Asset
 										   <span class="caret"></span></button>
 										   <ul class="dropdown-menu" role="menu" aria-labelledby="menu1" id="buyAssets" >
-										     <li role="presentation" th:each="asset : ${wallet.assetList}" ><a role="menuitem" tabindex="-1" th:text="${asset.assetCode}" >HTML</a></li>
-										     
+										     <li role="presentation" th:each="asset : ${wallet.assetList}" >
+										     	<a role="menuitem" tabindex="-1" th:if="${asset.assetType == 'native'}" >Lumens</a>
+										     	<a role="menuitem" tabindex="-1" th:text="${asset.assetCode}" >HTML</a>
+										     </li>
 										   </ul>
 										 </div>
 										</div>
@@ -101,11 +103,13 @@
 									<div class="form-group">
 			  						<div class="container">
 										 <div class="dropdown">
-										   <button class="btn btn-default dropdown-toggle dd_assets" type="button"  data-toggle="dropdown" id="dd_sellButton">MVPToken
+										   <button class="btn btn-default dropdown-toggle dd_assets" type="button"  data-toggle="dropdown" id="dd_sellButton">Sell Asset
 										   <span class="caret"></span></button>
 										   <ul class="dropdown-menu" role="menu" aria-labelledby="menu1" id="sellAssets" >
-										     <li role="presentation" th:each="asset : ${wallet.assetList}" ><a role="menuitem" tabindex="-1" th:text="${asset.assetCode}" >HTML</a></li>
-										     
+										     <li role="presentation" th:each="asset : ${wallet.assetList}" >
+										     	<a role="menuitem" tabindex="-1" th:if="${asset.assetType == 'native'}" >Lumens</a>
+										     	<a role="menuitem" tabindex="-1" th:text="${asset.assetCode}" >HTML</a>
+										     </li>
 										   </ul>
 										 </div>
 										</div>

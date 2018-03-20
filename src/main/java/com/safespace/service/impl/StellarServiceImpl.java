@@ -149,7 +149,7 @@ public class StellarServiceImpl implements StellarService {
 			String amount, String transactionMemo) {
 		Map<String, Object> status = new HashMap<String, Object>();
 		Network.useTestNetwork();
-		Server server = new Server("https://horizon-testnet.stellar.org");
+		Server server = new Server(network);
 
 		// KeyPair source =
 		// KeyPair.fromSecretSeed("SCFLETXVOZXIBBMQU26EEXXVYZQF44LE4SAEALUWPONZ6DKKJ5EHBPAB");
