@@ -454,8 +454,8 @@ public class StellarServiceImpl implements StellarService {
 				for(JsonElement askElement : asks){
 					OrderPrices book = new OrderPrices();
 					JsonObject askObject = askElement.getAsJsonObject(); 
-					book.setFromPrice(askObject.get("amount").getAsString());
-					book.setToPrice(askObject.get("price").getAsString());
+					book.setFromPrice(askObject.get("price").getAsString());
+					book.setToPrice(askObject.get("amount").getAsString());
 					orderBook.getSellPrices().add(book);
 				}
 			}
