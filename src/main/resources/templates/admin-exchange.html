@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Safe Space Decentralize Exchange</title>
+<title>Safe Space Decentralize Exchange - Admin</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
@@ -17,9 +17,9 @@
 	        <div class="col-md-2 no-float left-navi-dashboard">
 				<div class="header-logo"><img src="../../assets/icon/safespace-small.png" class="smallImage" /> </div>
 				<ul class="left-navi font-white">
-					<li ><a th:href="@{/wallet/} + ${accountId}"><img src="../../assets/icon/wallet.png" class="smallImage"   /> Wallet</a></li>
+					<li ><a th:href="@{/admin/wallet}"><img src="../../assets/icon/wallet.png" class="smallImage"   /> Wallet</a></li>
 					<li class=""><img src="../../assets/icon/account.png" class="smallImage" /> Account</li>
-					<li class="active"><a th:href="@{/exchange/} + ${accountId}"><img src="../../assets/icon/dex.png" class="smallImage smallImage activeImg" /> Decentralized Exchange</a></li>
+					<li class="active"><a th:href="@{/admin/exchange}" class="active"><img src="../../assets/icon/dex.png" class="smallImage smallImage activeImg" /> Decentralized Exchange</a></li>
 					<li class=""><img src="../../assets/icon/send.png" class="smallImage" /> Send</li>
 					<li class=""><img src="../../assets/icon/deposit.png" class="smallImage" /> Deposit/Withdraw</li>
 					<li class=""><img src="../../assets/icon/settings.png" class="smallImage" /> Settings</li>	
@@ -69,7 +69,7 @@
 			  						<div class="form-group">
 			  						<div class="container">
 										 <div class="dropdown">
-										 <input type="hidden" id="accountId" th:value="${accountId}" />
+										 <input type="hidden" id="secretKey" th:value="${secretKey}" />
 										   <button class="btn btn-default dropdown-toggle dd_assets" type="button"  data-toggle="dropdown" id="dd_buyButton">Lumens
 										   <span class="caret"></span></button>
 										   <ul class="dropdown-menu" role="menu" aria-labelledby="menu1" id="buyAssets" >
@@ -131,7 +131,7 @@
 			  				</div>
 			  			</div>
 			  			
-			  			<div class="col-sm-12"><button type="button" class="btn btn-default blue-button" id="processOfferConsumer">Process Offer</button></div>
+			  			<div class="col-sm-12"><button type="button" class="btn btn-default blue-button" id="processOffer">Process Offer</button></div>
 			  			<div class="col-sm-12"><hr /></div>
 			  			<div class="order-content">
 			  				<div class="col-sm-6">

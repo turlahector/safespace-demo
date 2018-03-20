@@ -17,19 +17,19 @@ import com.safespace.view.Wallet;
 public class AdminController {
 
 	//issuer keys
-	private String publicKeyIssuer = "GAU6F4I4ZJE6B6AMGDSAK6VJI6SAX4HBKRX4FWE2BMLWYKWSOENQVQ34";
-	private String secretKeyIssuer = "SAZQCB5OJW422LVOMD2V3YUE6627BSPEOE3Y4C3OENTIXI2FI5VM52KO";
-	
-	private String publicKeyReciever = "GBMTKZMUCNQBPDEHCGCTDCGDDQ4L65KZLOK5FY4PVFD5PEGO2RQEP5J5";
-	private String secretKeyReciever = "SDUHIVPNRPSPQ2U6MY4ZGXRG7SORKOL6KKYC6P4IROKUPNNRATG3NLH6";
+		private String publicKeyIssuer = "GBHQNJK3JTTFLHCNLCRV3IZ4LZNQQJUHDGQ2U7VQJHW2EPL2P2MPWZLW";
+		private String secretKeyIssuer = "SAPLRJE2N5PUPZRVXFXZVQ2FSZJMMWWSRSLB5BNUWEMKONRZ63NCZO3P";
+		
+		private String publicKeyReciever = "GAZVQ4RPBY3LRCGAZLAMT4UOUM3HGVF7O7L3JPIOBWFSUDQW4N3JTX2F";
+		private String secretKeyReciever = "SBGKAZYOHY5VTMXRJCOXGYCBNQKXBOOZVA2H4VVZAAXCQBOXIWWFLGP7";
 	
 	@Autowired
 	private StellarService stellarService;
 	
 
-	@RequestMapping("/admin")
+	@RequestMapping("/admin/wallet")
 	public ModelAndView account() throws IOException {
-		ModelAndView model = new ModelAndView("admin");
+		ModelAndView model = new ModelAndView("admin-wallet");
 		
 		KeyPair keyPair =KeyPair.fromAccountId(publicKeyReciever);
 		

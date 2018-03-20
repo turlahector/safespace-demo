@@ -79,6 +79,8 @@ $( document ).ready(function() {
 		
 	});
 	
+	
+	
 	jQuery("#sendPaymentWallet").click(function() {
 		var recipient = jQuery("#recipient").val();
 		var amount = jQuery("#amount").val();
@@ -122,7 +124,67 @@ $( document ).ready(function() {
 	    jQuery(this).removeClass("asset-box-white");
 	});
 
-
+	jQuery("#processOffer").click(function() {
+		var sourceSecretKey = jQuery("#secretKey").val();
+		var assetCodeSell = $("#dd_sellButton").text();
+		var assetCodeBuy =  $("#dd_buyButton").text();
+		var assetAmountSell = jQuery("#amountSell").val();
+		var assetAmountBuy = jQuery("#amountBuy").val();
+		var transactionMemo = jQuery("#memo").val();
+		console.log(sourceSecretKey);
+		console.log(assetCodeSell);
+		console.log(assetCodeBuy);
+		console.log(assetAmountSell);
+		console.log(assetAmountBuy);
+		console.log(transactionMemo);
+		
+		$.ajax({
+	    url : '/api/stellar/createOffer/'+sourceSecretKey+'/'+assetCodeSell+'/'+assetAmountSell+'/'+assetCodeBuy+'/'+assetAmountBuy+'/'+transactionMemo,
+	          method: "POST",
+	          contentType : 'application/json', 
+	          async: true,
+	          success : function(data) {
+				location.reload();
+	          }
+	   }); 
+	   
+	});
+	
+	jQuery("#processOfferConsumer").click(function() {
+		var accountId = jQuery("#accountId").val();
+		var sourceSecretKey = getCookie(accountId);
+		var assetCodeSell = $("#dd_sellButton").text();
+		var assetCodeBuy =  $("#dd_buyButton").text();
+		var assetAmountSell = jQuery("#amountSell").val();
+		var assetAmountBuy = jQuery("#amountBuy").val();
+		var transactionMemo = jQuery("#memo").val();
+		console.log(sourceSecretKey);
+		console.log(assetCodeSell);
+		console.log(assetCodeBuy);
+		console.log(assetAmountSell);
+		console.log(assetAmountBuy);
+		console.log(transactionMemo);
+		
+		$.ajax({
+	    url : '/api/stellar/createOffer/'+sourceSecretKey+'/'+assetCodeSell+'/'+assetAmountSell+'/'+assetCodeBuy+'/'+assetAmountBuy+'/'+transactionMemo,
+	          method: "POST",
+	          contentType : 'application/json', 
+	          async: true,
+	          success : function(data) {
+				location.reload();
+	          }
+	   }); 
+	   
+	});
+	
+	jQuery("#buyAssets li").click(function() {
+		$("#dd_buyButton").text($(this).text());
+	});
+	
+	jQuery("#sellAssets li").click(function() {
+		$("#dd_sellButton").text($(this).text());
+		
+	});
 
 });
  

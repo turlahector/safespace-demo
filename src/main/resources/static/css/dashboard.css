@@ -48,10 +48,14 @@ ul.left-navi a {
 ul.left-navi a:hover {
 	text-decoration: none;
 } 
-.left-navi .active {
+.left-navi li.active {
 	background-color:#1f253e;
 	color: #21bfd7;
 	border-left:5px solid;
+}
+
+.left-navi a.active {
+	color: #21bfd7 !important; 
 }
 
 
@@ -244,7 +248,7 @@ ul.left-navi a:hover {
 	padding-top:20px;
 }
 
-#processOffer {
+#processOffer, #processOfferConsumer {
 	width: auto !important;
 	position:relative;
 	float:right;
@@ -257,4 +261,20 @@ ul.left-navi a:hover {
 .header-listOrder {
 	background: #d3d3d34d;
 	padding:10px;
+}
+
+.dd_assets{
+	width:100%!important;
+	text-align: left;
+}
+
+.dd_assets .caret {
+	    position: relative;
+    float: right;
+    top: 9px;
+	
+}
+
+#buyAssets, #sellAssets {
+	width:100%!important;
 }

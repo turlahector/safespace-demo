@@ -52,6 +52,22 @@ public class WelcomeController {
 		return model;
 	}
 	
+	@RequestMapping("/exchange/{accountId}")
+	public ModelAndView exchange(@PathVariable ("accountId") String accountId) throws IOException {
+		ModelAndView model = new ModelAndView("exchange");
+		KeyPair keyPair =KeyPair.fromAccountId(accountId);
+		
+		model.addObject("accountId", accountId);
+		//stellarService.requestFreeLumen(accountId);
+		Wallet wallet = stellarService.getWalletDetails(keyPair);
+		if (wallet == null) {
+			model.addObject("wallet","empty");
+		}else {
+			model.addObject("wallet",wallet);
+		}
+		return model;
+	}
+	
 	@RequestMapping("/account")
 	public String wallet(Map<String, Object> model) {
 		model.put("message", this.messageJay);

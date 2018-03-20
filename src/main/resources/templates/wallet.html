@@ -15,9 +15,9 @@
 	        <div class="col-md-2 no-float left-navi-dashboard">
 				<div class="header-logo"><img src="../../assets/icon/safespace-small.png" class="smallImage" /> </div>
 				<ul class="left-navi font-white">
-					<li class="active"><img src="../../assets/icon/wallet.png" class="smallImage activeImg"   /> Wallet</li>
+					<li class="active"><a th:href="@{/wallet/} + ${accountId}" class="active"><img src="../../assets/icon/wallet.png" class="smallImage activeImg"   /> Wallet</a></li>
 					<li class=""><img src="../../assets/icon/account.png" class="smallImage" /> Account</li>
-					<li class=""><a th:href="@{/exchange}"><img src="../../assets/icon/dex.png" class="smallImage" /> Decentralized Exchange</a></li>
+					<li class=""><a th:href="@{/exchange/} + ${accountId}"><img src="../../assets/icon/dex.png" class="smallImage" /> Decentralized Exchange</a></li>
 					<li class=""><img src="../../assets/icon/send.png" class="smallImage" /> Send</li>
 					<li class=""><img src="../../assets/icon/deposit.png" class="smallImage" /> Deposit/Withdraw</li>
 					<li class=""><img src="../../assets/icon/settings.png" class="smallImage" /> Settings</li>	
