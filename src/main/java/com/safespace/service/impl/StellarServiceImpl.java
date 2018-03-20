@@ -425,7 +425,7 @@ public class StellarServiceImpl implements StellarService {
 			JsonElement element = gson.fromJson (returnString, JsonElement.class);
 			JsonObject requestJson = element.getAsJsonObject();
 			orderBook = 	new OrderBook(requestJson.get("base").getAsJsonObject(),requestJson.get("counter").getAsJsonObject());
-			JsonArray bids = requestJson.get("bids").getAsJsonArray();
+			JsonArray bids = requestJson.get("asks").getAsJsonArray();
 			if(!bids.isJsonNull()){
 				for(JsonElement askElement : bids){
 					OrderPrices book = new OrderPrices();
@@ -446,7 +446,7 @@ public class StellarServiceImpl implements StellarService {
 			String returnString = IOUtils.toString(response);
 			JsonElement element = gson.fromJson (returnString, JsonElement.class);
 			JsonObject requestJson = element.getAsJsonObject();
-			JsonArray asks = requestJson.get("bids").getAsJsonArray();
+			JsonArray asks = requestJson.get("asks").getAsJsonArray();
 			if(null == orderBook){
 				orderBook = new OrderBook(requestJson.get("base").getAsJsonObject(),requestJson.get("counter").getAsJsonObject());
 			}
