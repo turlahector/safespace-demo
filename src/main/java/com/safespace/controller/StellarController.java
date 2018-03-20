@@ -85,7 +85,7 @@ public class StellarController {
 			customAsset = new AssetTypeNative();
 		}
 		
-		return stellarService.sendPayment(customAsset, issuingKeysSecret, receivingKeysSecret, amount, transactionMemo);
+		return stellarService.sendPayment(customAsset, issuingKeysSecret, receivingKeysSecret, amount, transactionMemo,requestJson.get("limit").getAsString());
 	}
 
 	

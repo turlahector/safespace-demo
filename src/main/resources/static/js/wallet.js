@@ -56,7 +56,8 @@ $( document ).ready(function() {
 		var accountId = jQuery("#accountId").val();
 		var sourceKey = getCookie(accountId);
 		var assetCode = jQuery(".tokenName").text();
-		var secretCode = {"secretCode" : jQuery("#secretCode").val()};
+		var secretCode = {"secretCode" : jQuery("#secretCode").val(),"limit" : jQuery("#limitSendPayment").val()};
+		
 		console.log("accountId===" + accountId);
 		console.log("recipeint===" + recipeint);
 		console.log("amount===" + amount);

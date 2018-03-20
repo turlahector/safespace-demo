@@ -18,7 +18,7 @@ public interface StellarService {
 	public Wallet getWalletDetails(KeyPair accountKeyPair) throws IOException ;
 	public Map<String, Object>issuingNewAsset(String issuingSecretKey, String recieveingSecretKey, Asset customAsset, String limit, String amountToSend) throws IOException ;
 	public Map<String, Object>  sendTransaction(Asset asset, KeyPair source, KeyPair destination, String amount, String transactionMemo) ;
-	public Map<String, Object> sendPayment(Asset asset, KeyPair source, KeyPair destination, String amount, String transactionMemo) throws IOException;
+	public Map<String, Object> sendPayment(Asset asset, KeyPair source, KeyPair destination, String amount, String transactionMemo,String limit) throws IOException;
 	public ArrayList<Transactions> transactionsPerAccount(String accountId);
 	public void sendPayment(String assetCode) throws IOException; 
 	public Map<String, Object> createOffer(String souceSecretSeed, Asset selling, Asset buying, String amountSell, String amountBuy, String memo);

@@ -204,7 +204,7 @@ public class StellarServiceImpl implements StellarService {
 	}
 
 	public Map<String, Object> sendPayment(Asset asset, KeyPair issuingKeys, KeyPair receivingKeys, String amount,
-			String transactionMemo) throws IOException {
+			String transactionMemo,String limit) throws IOException {
 		Map<String, Object> status = new HashMap<String, Object>();
 		Network.useTestNetwork();
 		Server server = new Server("https://horizon-testnet.stellar.org");
@@ -221,7 +221,7 @@ public class StellarServiceImpl implements StellarService {
 		Transaction allowNewAsset = new Transaction.Builder(receiving).addOperation(
 				// The `ChangeTrust` operation creates (or alters) a trustline
 				// The second parameter limits the amount the account can hold
-				new ChangeTrustOperation.Builder(asset, "1000").build()).build();
+				new ChangeTrustOperation.Builder(asset,limit).build()).build();
 		allowNewAsset.sign(receivingKeys);
 		SubmitTransactionResponse response1 = server.submitTransaction(allowNewAsset);
 		System.out.println(response1.getLedger());
