@@ -187,7 +187,7 @@ $( document ).ready(function() {
 	});
 	
 	jQuery("#sellOfferAsset li").click(function() {
-		$("#dd_sellOffer").text($(this).text());
+		$("#dd_sellerOffer").text($(this).text());
 		location.href = "/admin/exchange/"+jQuery.trim($("#dd_sellerOffer").text())+"/"+jQuery.trim($("#dd_buyerOffer").text()) ;
 		
 	});
@@ -206,9 +206,9 @@ function setExchangeDefaults(){
 	for(var i = 0;i < arr.length;i++){
 		try{
 			if(arr[i]==='admin' && arr[i+1]==='exchange'){
-				$("#dd_sellOffer").text(arr[3]);
+				$("#dd_sellerOffer").text(arr[5]);
 				
-				$("#dd_sellOffer").text(arr[4]);
+				$("#dd_buyerOffer").text(arr[6]);
 			}
 		} catch(err){
 			
