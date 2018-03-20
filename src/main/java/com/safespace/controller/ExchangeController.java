@@ -35,7 +35,7 @@ public class ExchangeController {
 	
 	@RequestMapping("/admin/exchange")
 	public ModelAndView exchange() throws IOException {
-		return exchange("skyFlakes","customAsset");
+		return exchange("lumens","lumens");
 	}
 	
 	@RequestMapping("/admin/exchange/{sellAsset}/{buyAsset}")

@@ -20,7 +20,8 @@ public class WelcomeController {
 	// inject via application.properties
 	@Value("${welcome.message:test}")
 	private String message = "Hello World";
-	
+	@Value("${issuer.publicKey}")
+	private String publicKeyIssuer;
 	@Value("${welcome.messageJay:test}")
 	private String messageJay = "Hello World";
 	
@@ -54,6 +55,12 @@ public class WelcomeController {
 	
 	@RequestMapping("/exchange/{accountId}")
 	public ModelAndView exchange(@PathVariable ("accountId") String accountId) throws IOException {
+		
+		return exchange(accountId,"lumens","lumens");
+	}
+	@RequestMapping("/exchange/{accountId}/{sellAsset}/{buyAsset}")
+	public ModelAndView exchange(@PathVariable ("accountId") String accountId,
+			@PathVariable ("sellAsset")String sellType,@PathVariable ("buyAsset") String buyAssetType) throws IOException{
 		ModelAndView model = new ModelAndView("exchange");
 		KeyPair keyPair =KeyPair.fromAccountId(accountId);
 		
@@ -65,8 +72,13 @@ public class WelcomeController {
 		}else {
 			model.addObject("wallet",wallet);
 		}
+	
+		
+		model.addObject("orderBook", stellarService.orderBook(buyAssetType,sellType,publicKeyIssuer,publicKeyIssuer));
 		return model;
+		
 	}
+	
 	
 	@RequestMapping("/account")
 	public String wallet(Map<String, Object> model) {

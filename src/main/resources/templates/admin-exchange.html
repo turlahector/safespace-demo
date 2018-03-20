@@ -161,19 +161,19 @@
 								    <thead>
 								      <tr>
 								      	<th>#</th>
-								      	 <th>Sum XLM</th>
-								        <th><span th:text="${orderBook.fromCode}" ></span></th>
-								        <th><span th:text="${orderBook.toCode}" ></span></th>
-								        <th>Price</th>								        
+								      	 <th>Sum <span th:text="${orderBook.toCode}" ></span></th>
+								      	 <th><span th:text="${orderBook.toCode}" ></span></th>
+								        <th><span th:text="${orderBook.fromCode}" ></span></th>								        
+								        <th>Price per unit</th>								        
 								      </tr>
 								    </thead>
 								    <tbody th:if="${orderBook != 'empty'}" th:each="buyPrices ,iter: ${orderBook.buyPrices}">
 								      <tr>
 								        <td><span th:text="${iter.index +1}" ></span></td>
 								        <td>-</td>	
-								        <td><span th:text="${buyPrices.fromPrice}" ></span></td>
 								        <td><span th:text="${buyPrices.toPrice}" ></span></td>
-								        <td>-</td>								        
+								        <td><span th:text="${buyPrices.fromPrice}" ></span></td>								        
+								        <td><span th:text="${buyPrices.price}" ></span></td>								        
 								      </tr>								      
 								    </tbody>
 								  </table>
@@ -204,19 +204,19 @@
 								    <thead>
 								      <tr>
 								      	<th>#</th>
-								        <th>Sum XLM</th>
-								        <th><span th:text="${orderBook.toCode}" ></span></th>
+								        <th>Sum <span th:text="${orderBook.toCode}" ></span></th>
 								        <th><span th:text="${orderBook.fromCode}" ></span></th>
-								        <th>Price</th>	
+								        <th><span th:text="${orderBook.toCode}" ></span></th>
+								        <th>Price per unit</th>		
 								      </tr>
 								    </thead>
 								     <tbody th:if="${sellOrderBook != 'empty'}" th:each="sellPrices,iter: ${orderBook.sellPrices}">
 								      <tr>
 								      	<td><span th:text="${iter.index +1}" ></span></td>
 								        <td>-</td>
-								        <td><span th:text="${sellPrices.fromPrice}" ></span></td>
 								        <td><span th:text="${sellPrices.toPrice}" ></span></td>
-								        <td>-</td>								        
+								        <td><span th:text="${sellPrices.fromPrice}" ></span></td>
+								        <td><span th:text="${sellPrices.price}" ></span></td>								        
 								      </tr>								      
 								    </tbody>
 								  </table>

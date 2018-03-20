@@ -15,11 +15,11 @@
 	<div class="container">
 	    <div class="row">
 	        <div class="col-md-2 no-float left-navi-dashboard">
-				<div class="header-logo"><img src="../../assets/icon/safespace-small.png" class="smallImage" /> </div>
+				<div class="header-logo"><img src="/assets/icon/safespace-small.png" class="smallImage" /> </div>
 				<ul class="left-navi font-white">
-					<li ><a th:href="@{/wallet/} + ${accountId}"><img src="../../assets/icon/wallet.png" class="smallImage"   /> Wallet</a></li>
+					<li ><a th:href="@{/wallet/} + ${accountId}"><img src="/assets/icon/wallet.png" class="smallImage"   /> Wallet</a></li>
 					<li class=""><img src="/assets/icon/account.png" class="smallImage" /> Account</li>
-					<li class="active"><a th:href="@{/exchange/} + ${accountId}" class="active"><img src="../../assets/icon/dex.png" class="smallImage smallImage activeImg" /> Decentralized Exchange</a></li>
+					<li class="active"><a th:href="@{/exchange/} + ${accountId}" class="active"><img src="/assets/icon/dex.png" class="smallImage smallImage activeImg" /> Decentralized Exchange</a></li>
 					<li class=""><img src="/assets/icon/send.png" class="smallImage" /> Send</li>
 					<li class=""><img src="/assets/icon/deposit.png" class="smallImage" /> Deposit/Withdraw</li>
 					<li class=""><img src="/assets/icon/settings.png" class="smallImage" /> Settings</li>	
@@ -45,9 +45,9 @@
 		          <div id="navbar" class="navbar-collapse collapse">
 		            
 		            <ul class="nav navbar-nav navbar-right">
-		              <li><a href="./"> <img src="../../assets/icon/settings-white.png" class="smallImage" /> </a></li>
-		              <li><a href="../navbar-static-top/"><img src="../../assets/icon/user.png" class="smallImage" /></a></li>
-		              <li><a href="../navbar-fixed-top/"><img src="../../assets/icon/close.png" class="smallImage" /></a></li>
+		              <li><a href="./"> <img src="/assets/icon/settings-white.png" class="smallImage" /> </a></li>
+		              <li><a href="../navbar-static-top/"><img src="/assets/icon/user.png" class="smallImage" /></a></li>
+		              <li><a href="../navbar-fixed-top/"><img src="/assets/icon/close.png" class="smallImage" /></a></li>
 		            </ul>
 		          </div><!--/.nav-collapse -->
 		        </div><!--/.container-fluid -->
@@ -131,33 +131,43 @@
 			  			
 			  			<div class="col-sm-12"><button type="button" class="btn btn-default blue-button" id="processOfferConsumer">Process Offer</button></div>
 			  			<div class="col-sm-12"><hr /></div>
-			  			<div class="order-content" id="orderContentId">
+			  			<div class="order-content" id="buySellContent">
 			  				<div class="col-sm-6">
 			  				<div class="textCenter header-listOrder">Buy offer</div>
-			  				<div class="dropdown">
-										   <button class="btn btn-default dropdown-toggle dd_assets" type="button"  data-toggle="dropdown" id="dd_sellButton">MVPToken
-										   <span class="caret"></span></button>
-										   <ul class="dropdown-menu" role="menu" aria-labelledby="menu1" id="sellAssets" >
-										     <li role="presentation" th:each="asset : ${wallet.assetList}" ><a role="menuitem" tabindex="-1" th:text="${asset.assetCode}" >HTML</a></li>
-										     
-										   </ul>
-										 </div>
+			  				<div class="textCenter">
+									<div class="form-group">
+			  							<div class="container">
+											 <div class="dropdown">
+											   <button class="btn btn-default dropdown-toggle dd_assets" type="button"  data-toggle="dropdown" id="dd_buyerOfferClient">MVPToken
+											   <span class="caret"></span></button>
+											   <ul class="dropdown-menu" role="menu" aria-labelledby="menu1" id="buyOfferAssetsClient" >
+											     <li role="presentation" th:each="asset : ${wallet.assetList}" ><a role="menuitem" tabindex="-1" th:text="${asset.assetCode}" >HTML</a></li>
+											     
+											   </ul>
+											 </div>
+										</div>
+									</div>
+							</div>
 			  				<div class="padding-top20px">
 			  					<div class="container">
 								  <div class="table-responsive">          
 								  <table class="table">
 								    <thead>
 								      <tr>
-								        <th>Asset Code</th>
-								        <th>Asset Issuer</th>
+								      	<th>#</th>
+								      	 <th>Sum <span th:text="${orderBook.toCode}" ></span></th>
+								      	 <th><span th:text="${orderBook.toCode}" ></span></th>
+								        <th><span th:text="${orderBook.fromCode}" ></span></th>								        
 								        <th>Price</th>								        
 								      </tr>
 								    </thead>
-								    <tbody th:if="${buyOrderBook != 'empty'}" th:each="buyOrderBook : ${buyOrderBook}">
+								    <tbody th:if="${orderBook != 'empty'}" th:each="buyPrices ,iter: ${orderBook.buyPrices}">
 								      <tr>
-								        <td><span th:text="${buyOrderBook.buyingAssetCode}" ></span></td>
-								        <td><span class="ellips" th:text="${buyOrderBook.buyingAssetIsuer}" ></span></td>
-								        <td><span th:text="${buyOrderBook.buyingAmount}" ></span></td>								        
+								        <td><span th:text="${iter.index +1}" ></span></td>
+								        <td>-</td>	
+								        <td><span th:text="${buyPrices.toPrice}" ></span></td>
+								        <td><span th:text="${buyPrices.fromPrice}" ></span></td>								        
+								        <td><span th:text="${buyPrices.price}" ></span></td>							        
 								      </tr>								      
 								    </tbody>
 								  </table>
@@ -167,30 +177,40 @@
 			  			</div>
 			  			<div class="col-sm-6">
 			  				<div class="textCenter header-listOrder">Sell offer</div>
-			  				<div class="dropdown">
-										   <button class="btn btn-default dropdown-toggle dd_assets" type="button"  data-toggle="dropdown" id="dd_sellButton">MVPToken
-										   <span class="caret"></span></button>
-										   <ul class="dropdown-menu" role="menu" aria-labelledby="menu1" id="sellAssets" >
-										     <li role="presentation" th:each="asset : ${wallet.assetList}" ><a role="menuitem" tabindex="-1" th:text="${asset.assetCode}" >HTML</a></li>
-										     
-										   </ul>
-										 </div>
+			  				<div class="textCenter">
+									<div class="form-group">
+			  							<div class="container">
+											 <div class="dropdown">
+											   <button class="btn btn-default dropdown-toggle dd_assets" type="button"  data-toggle="dropdown" id="dd_sellerOfferClient">MVPToken
+											   <span class="caret"></span></button>
+											   <ul class="dropdown-menu" role="menu" aria-labelledby="menu1" id="sellOfferAssetClient" >
+											     <li role="presentation" th:each="asset : ${wallet.assetList}" ><a role="menuitem" tabindex="-1" th:text="${asset.assetCode}" >HTML</a></li>
+											     
+											   </ul>
+											 </div>
+										</div>
+									</div>
+							</div>
 			  				<div class="padding-top20px">
 			  					<div class="container">
 								  <div class="table-responsive">          
 								  <table class="table">
 								    <thead>
 								      <tr>
-								        <th>Asset Code</th>
-								        <th>Asset Issuer</th>
+								      	<th>#</th>
+								        <th>Sum <span th:text="${orderBook.toCode}" ></span></th>
+								        <th><span th:text="${orderBook.fromCode}" ></span></th>
+								        <th><span th:text="${orderBook.toCode}" ></span></th>
 								        <th>Price</th>	
 								      </tr>
 								    </thead>
-								     <tbody th:if="${sellOrderBook != 'empty'}" th:each="sellOrderBook : ${sellOrderBook}">
+								     <tbody th:if="${sellOrderBook != 'empty'}" th:each="sellPrices,iter: ${orderBook.sellPrices}">
 								      <tr>
-								        <td><span th:text="${sellOrderBook.sellingAssetCode}" ></span></td>
-								        <td><span class="ellips" th:text="${sellOrderBook.sellingAssetIsuer}" ></span></td>
-								        <td><span th:text="${sellOrderBook.sellingAmount}" ></span></td>								        
+								      	<td><span th:text="${iter.index +1}" ></span></td>
+								        <td>-</td>
+								        <td><span th:text="${sellPrices.toPrice}" ></span></td>
+								        <td><span th:text="${sellPrices.fromPrice}" ></span></td>
+								        <td><span th:text="${sellPrices.price}" ></span></td>							        
 								      </tr>								      
 								    </tbody>
 								  </table>

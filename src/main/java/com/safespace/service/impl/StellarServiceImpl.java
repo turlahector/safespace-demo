@@ -14,6 +14,7 @@ import java.util.Map;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Service;
 import org.stellar.sdk.Asset;
+import org.stellar.sdk.AssetTypeNative;
 import org.stellar.sdk.ChangeTrustOperation;
 import org.stellar.sdk.KeyPair;
 import org.stellar.sdk.ManageOfferOperation;
@@ -412,7 +413,12 @@ public class StellarServiceImpl implements StellarService {
 		KeyPair issuerKeyPair =KeyPair.fromAccountId(buyingAssetIssuer);
 		Asset sellAsset = Asset.createNonNativeAsset(sellingAssetCode, issuerKeyPair);
 		Asset buyAsset = Asset.createNonNativeAsset(buyingAssetCode, issuerKeyPair);
-		
+		if(buyingAssetCode.equalsIgnoreCase("lumens")){
+			buyAsset = new AssetTypeNative();
+		}
+		if(sellingAssetCode.equalsIgnoreCase("lumens")){
+			sellAsset = new AssetTypeNative();
+		}
 		InputStream response = null;
 		String buyerUrl = orderBookUrlBuilder(sellAsset.getType(), buyAsset.getType(), buyingAssetCode, sellingAssetCode, buyingAssetIssuer, sellingAssetIssuer);
 				
@@ -430,8 +436,9 @@ public class StellarServiceImpl implements StellarService {
 				for(JsonElement askElement : bids){
 					OrderPrices book = new OrderPrices();
 					JsonObject askObject = askElement.getAsJsonObject(); 
-					book.setFromPrice(askObject.get("amount").getAsString());
-					book.setToPrice(askObject.get("price").getAsString());
+					book.setPrice(askObject.get("price").getAsString());
+					book.setToPrice(askObject.get("amount").getAsString());
+					book.setFromPrice(String.valueOf(Double.valueOf(book.getPrice()) * Double.valueOf(book.getToPrice())));
 					orderBook.getBuyPrices().add(book);
 				}
 			}
@@ -454,8 +461,9 @@ public class StellarServiceImpl implements StellarService {
 				for(JsonElement askElement : asks){
 					OrderPrices book = new OrderPrices();
 					JsonObject askObject = askElement.getAsJsonObject(); 
-					book.setFromPrice(askObject.get("price").getAsString());
+					book.setPrice(askObject.get("price").getAsString());
 					book.setToPrice(askObject.get("amount").getAsString());
+					book.setFromPrice(String.valueOf(Double.valueOf(book.getPrice()) * Double.valueOf(book.getToPrice())));
 					orderBook.getSellPrices().add(book);
 				}
 			}

@@ -198,6 +198,19 @@ $( document ).ready(function() {
 		
 	});
 	setExchangeDefaults();
+	jQuery("#sellOfferAssetClient li").click(function() {
+		var accountId = jQuery("#accountId").val();
+		$("#dd_sellerOfferClient").text($(this).text());
+		location.href = "/exchange/"+jQuery.trim(accountId)+"/"+jQuery.trim($("#dd_sellerOfferClient").text())+"/"+jQuery.trim($("#dd_buyerOfferClient").text()) ;
+			
+	});
+	setExchangeDefaultsClient();		
+	jQuery("#buyOfferAssetsClient li").click(function() {
+		var accountId = jQuery("#accountId").val();
+		$("#dd_buyerOfferClient").text($(this).text());
+		location.href = "/exchange/"+jQuery.trim(accountId)+"/"+jQuery.trim($("#dd_sellerOfferClient").text())+"/"+jQuery.trim($("#dd_buyerOfferClient").text()) ;
+				
+	});
 });
 
 function setExchangeDefaults(){
@@ -206,9 +219,23 @@ function setExchangeDefaults(){
 	for(var i = 0;i < arr.length;i++){
 		try{
 			if(arr[i]==='admin' && arr[i+1]==='exchange'){
-				$("#dd_sellerOffer").text(arr[5]);
-				
+				$("#dd_sellerOffer").text(arr[5]);				
 				$("#dd_buyerOffer").text(arr[6]);
+			}
+		} catch(err){
+			
+		}
+	}
+}
+
+function setExchangeDefaultsClient(){
+	var url = window.location.href;
+	var arr=url.split('/');
+	for(var i = 0;i < arr.length;i++){
+		try{
+			if(arr[i]==='exchange'){
+				$("#dd_sellerOfferClient").text(arr[5]);				
+				$("#dd_buyerOfferClient").text(arr[6]);
 			}
 		} catch(err){
 			
