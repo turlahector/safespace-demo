@@ -18,12 +18,12 @@
 				<div class="header-logo"><img src="../../assets/icon/safespace-small.png" class="smallImage" /> </div>
 				<ul class="left-navi font-white">
 					<li ><a th:href="@{/wallet/} + ${accountId}"><img src="../../assets/icon/wallet.png" class="smallImage"   /> Wallet</a></li>
-					<li class=""><img src="../../assets/icon/account.png" class="smallImage" /> Account</li>
+					<li class=""><img src="/assets/icon/account.png" class="smallImage" /> Account</li>
 					<li class="active"><a th:href="@{/exchange/} + ${accountId}" class="active"><img src="../../assets/icon/dex.png" class="smallImage smallImage activeImg" /> Decentralized Exchange</a></li>
-					<li class=""><img src="../../assets/icon/send.png" class="smallImage" /> Send</li>
-					<li class=""><img src="../../assets/icon/deposit.png" class="smallImage" /> Deposit/Withdraw</li>
-					<li class=""><img src="../../assets/icon/settings.png" class="smallImage" /> Settings</li>	
-					<li class=""><img src="../../assets/icon/logout.png" class="smallImage" /> Logout</li>
+					<li class=""><img src="/assets/icon/send.png" class="smallImage" /> Send</li>
+					<li class=""><img src="/assets/icon/deposit.png" class="smallImage" /> Deposit/Withdraw</li>
+					<li class=""><img src="/assets/icon/settings.png" class="smallImage" /> Settings</li>	
+					<li class=""><img src="/assets/icon/logout.png" class="smallImage" /> Logout</li>
 					
 				</ul>
 			</div>
@@ -37,7 +37,7 @@
 		              <span class="icon-bar"></span>
 		              <span class="icon-bar"></span>
 		            </button>
-		            <a class="navbar-brand" href="#"><img src="../../assets/icon/qr-code.png" class="smallImage" />  
+		            <a class="navbar-brand" href="#"><img src="/assets/icon/qr-code.png" class="smallImage" />  
 						<span class="addressUser" style="font-size:18px;"> DECENTRALIZE EXCHANGE </span>
 						
 					</a>
@@ -73,10 +73,7 @@
 										   <button class="btn btn-default dropdown-toggle dd_assets" type="button"  data-toggle="dropdown" id="dd_buyButton" >Buy Asset
 										   <span class="caret"></span></button>
 										   <ul class="dropdown-menu" role="menu" aria-labelledby="menu1" id="buyAssets" >
-										     <li role="presentation" th:each="asset : ${wallet.assetList}" >
-										     	<a role="menuitem" tabindex="-1" th:if="${asset.assetType == 'native'}" >Lumens</a>
-										     	<a role="menuitem"  th:text="${asset.assetCode}" >HTML</a>
-										     </li>
+										     <li role="presentation" th:each="asset : ${wallet.assetList}" ><a role="menuitem"  th:text="${asset.assetCode}" >HTML</a></li>
 										   </ul>
 										 </div>
 										</div>
@@ -106,10 +103,7 @@
 										   <button class="btn btn-default dropdown-toggle dd_assets" type="button"  data-toggle="dropdown" id="dd_sellButton">Sell Asset
 										   <span class="caret"></span></button>
 										   <ul class="dropdown-menu" role="menu" aria-labelledby="menu1" id="sellAssets" >
-										     <li role="presentation" th:each="asset : ${wallet.assetList}" >
-										     	<a role="menuitem" tabindex="-1" th:if="${asset.assetType == 'native'}" >Lumens</a>
-										     	<a role="menuitem" tabindex="-1" th:text="${asset.assetCode}" >HTML</a>
-										     </li>
+										     <li role="presentation" th:each="asset : ${wallet.assetList}" ><a role="menuitem"  th:text="${asset.assetCode}" >HTML</a></li>
 										   </ul>
 										 </div>
 										</div>
