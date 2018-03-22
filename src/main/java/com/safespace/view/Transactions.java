@@ -9,6 +9,11 @@ public class Transactions {
 	public String unit;
 	private String ledger;
 	private String pagingToken;
+	private String assetCode;
+	private String fromAccount;
+	private String toAccount;
+	private String amount;
+	
 	
 	public String getLedger() {
 		return ledger;
@@ -57,6 +62,30 @@ public class Transactions {
 	}
 	public void setUnit(String unit) {
 		this.unit = unit;
+	}
+	public String getAssetCode() {
+		return assetCode;
+	}
+	public void setAssetCode(String assetCode) {
+		this.assetCode = assetCode;
+	}
+	public String getFromAccount() {
+		return fromAccount;
+	}
+	public void setFromAccount(String fromAccount) {
+		this.fromAccount = fromAccount;
+	}
+	public String getToAccount() {
+		return toAccount;
+	}
+	public void setToAccount(String toAccount) {
+		this.toAccount = toAccount;
+	}
+	public String getAmount() {
+		return amount;
+	}
+	public void setAmount(String amount) {
+		this.amount = amount;
 	}
 	
 	

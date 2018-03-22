@@ -24,5 +24,6 @@ public interface StellarService {
 	public Map<String, Object> createOffer(String souceSecretSeed, Asset selling, Asset buying, String amountSell, String amountBuy, String memo);
 	public OrderBook orderBook(String buyingAssetCode,
 			String sellingAssetCode, String buyingAssetIssuer, String sellingAssetIssuer);
+	public ArrayList<Transactions> fetchTransactionViaAccountId(String accountId);
 
 }

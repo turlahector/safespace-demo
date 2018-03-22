@@ -16,7 +16,7 @@
 				<div class="header-logo"><img src="../../assets/icon/safespace-small.png" class="smallImage" /> </div>
 				<ul class="left-navi font-white">
 					<li class="active"><a th:href="@{/wallet/} + ${accountId}" class="active"><img src="../../assets/icon/wallet.png" class="smallImage activeImg"   /> Wallet</a></li>
-					<li class=""><img src="../../assets/icon/account.png" class="smallImage" /> Account</li>
+					<li class=""><a th:href="@{/account/balances/} + ${accountId}" class="smallImage"><img src="../../assets/icon/account.png" class="smallImage" /> Account</a></li>
 					<li class=""><a th:href="@{/exchange/} + ${accountId}"><img src="../../assets/icon/dex.png" class="smallImage" /> Decentralized Exchange</a></li>
 					<li class=""><img src="../../assets/icon/send.png" class="smallImage" /> Send</li>
 					<li class=""><img src="../../assets/icon/deposit.png" class="smallImage" /> Deposit/Withdraw</li>
@@ -79,7 +79,7 @@
 							<span class="float-right" th:text="${asset.assetCode}" th:unless="${asset.assetType == 'native'}">US DOLLAR</span>
 						</div>
 						<div class="text-right fontSize-25 " th:text="${asset.balance}">0</div>
-						<div class="text-right fontSize-25 padding-bottom20px">.00</div>
+						<div class="text-right fontSize-25 padding-bottom20px" th:text="${asset.limit}">.00</div>
 						<div>
 							<input type="button" value="Send" class="blue-button sendAsset" data-toggle="modal" data-target="#modalSendWallet" id="sendWallet"/> 
 							<input type="button" value="Withdraw" class="blue-button white-button" />

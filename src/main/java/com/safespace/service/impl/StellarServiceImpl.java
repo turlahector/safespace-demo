@@ -496,4 +496,58 @@ public class StellarServiceImpl implements StellarService {
 		}
 		return stellarUrl.toString();
 	}
+	
+	public ArrayList<Transactions> fetchTransactionViaAccountId(String accountId){
+		Gson gson = new Gson();
+		ArrayList<Transactions> returnTransactions= new ArrayList<Transactions>();
+		InputStream response = null;
+		StringBuilder url = new StringBuilder(network);
+		url.append("/accounts/");
+		url.append(accountId);
+		url.append("/payments");
+		try{
+			response = new URL(url.toString()).openStream();
+			String returnString = IOUtils.toString(response);
+			JsonElement element = gson.fromJson (returnString, JsonElement.class);
+			JsonObject requestJson = element.getAsJsonObject();
+			JsonObject embeddedJson = requestJson.get("_embedded").getAsJsonObject();
+			JsonArray jsonArray = embeddedJson.get("records").getAsJsonArray();
+			if(!jsonArray.isJsonNull()){
+				for(JsonElement loopJsonElement : jsonArray ){
+					JsonObject loopJsonObject = loopJsonElement.getAsJsonObject();					
+					Transactions transactions = new Transactions();
+					if(null != loopJsonObject.get("asset_code")){
+						transactions.setAssetCode(loopJsonObject.get("asset_code").getAsString());
+					}
+					if(null != loopJsonObject.get("asset_type") && loopJsonObject.get("asset_type").getAsString().equalsIgnoreCase("native")){
+						transactions.setAssetCode("LUMENS");
+					}
+					transactions.setDate(getDateFromString("MM/dd/yyyy", loopJsonObject.get("created_at").getAsString()));
+					transactions.setType(loopJsonObject.get("type").getAsString());
+					if(null != loopJsonObject.get("from")){
+						transactions.setFromAccount(loopJsonObject.get("from").getAsString());
+					}
+					if(null != loopJsonObject.get("to")){
+						transactions.setToAccount(loopJsonObject.get("to").getAsString());
+					}
+					if(null !=loopJsonObject.get("funder")){
+						transactions.setFromAccount(loopJsonObject.get("funder").getAsString());
+					}
+					if(null != loopJsonObject.get("account")){
+						transactions.setToAccount(loopJsonObject.get("account").getAsString());
+					}
+					if(null != loopJsonObject.get("starting_balance")){
+						transactions.setAmount(loopJsonObject.get("starting_balance").getAsString());
+					}
+					if(null != loopJsonObject.get("amount")){
+						transactions.setAmount(loopJsonObject.get("amount").getAsString());
+					}
+					returnTransactions.add(transactions);
+				}
+			}
+		} catch(Exception e){
+			e.printStackTrace();
+		}
+		return returnTransactions;
+	}
 }

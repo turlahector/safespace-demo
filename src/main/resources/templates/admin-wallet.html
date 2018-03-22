@@ -16,7 +16,7 @@
 				<div class="header-logo"><img src="../../assets/icon/safespace-small.png" class="smallImage" /> </div>
 				<ul class="left-navi font-white">
 					<li class="active"><a th:href="@{/admin/wallet}" class="active"><img src="../../assets/icon/wallet.png" class="smallImage activeImg"   /> Wallet</a></li>
-					<li class=""><img src="../../assets/icon/account.png" class="smallImage" /> Account</li>
+					<li class=""><a th:href="@{/account/balances/} + ${accountId}" class="smallImage"><img src="/assets/icon/account.png" class="smallImage" /> Account</a></li>
 					<li class=""><a th:href="@{/admin/exchange}"><img src="../../assets/icon/dex.png" class="smallImage" /> Decentralized Exchange</a></li>	
 					<li class=""><img src="../../assets/icon/send.png" class="smallImage" /> Send</li>
 					<li class=""><img src="../../assets/icon/deposit.png" class="smallImage" /> Deposit/Withdraw</li>
@@ -179,12 +179,16 @@
 					<div class="col-sm-8">
 						<div class="form-group"><input type="text" class="form-control" id="secretCode"/></div>
 					</div>
-				</div>				
+				</div>
+						
 				<div class="col-sm-4 paddingTop-14px">Amount</div>
 				<div class="col-sm-8">
 					<div class="form-group"><input type="text" class="form-control" id="amount"/></div>
 				</div>
-
+				<div class="col-sm-4 paddingTop-14px">Limit</div>
+					<div class="col-sm-8">
+						<div class="form-group"><input type="text" class="form-control" id="limitSendPayment"/></div>
+					</div>	
 				<div class="col-sm-4 paddingTop-14px">Transaction Memo</div>
 				<div class="col-sm-8">
 					<div class="form-group"><input type="text" class="form-control" id="memo"/></div>

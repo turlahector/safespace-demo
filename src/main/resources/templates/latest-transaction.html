@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Safe Space Decentralize Exchange</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<link rel="stylesheet" th:href="@{/css/dashboard.css}" href="../../css/main.css" />
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+
+</head>
+<body>
+	<div class="container">
+	    <div class="row">
+	    	<div class="col-md-2 no-float left-navi-dashboard">
+				<div class="header-logo"><img src="../../assets/icon/safespace-small.png" class="smallImage" /> </div>
+				<ul class="left-navi font-white">
+					<li class=""><a th:href="@{/wallet/} + ${accountId}" class="smallImage"><img src="../../assets/icon/wallet.png" class="smallImage"   /> Wallet</a></li>
+					<li class="active"><a th:href="@{/account/balances/} + ${accountId}" class="active"><img src="../../assets/icon/account.png" class="active activeImg" /> Account</a></li>
+					<li class=""><a th:href="@{/exchange/} + ${accountId}"><img src="../../assets/icon/dex.png" class="smallImage" /> Decentralized Exchange</a></li>
+					<li class=""><img src="../../assets/icon/send.png" class="smallImage" /> Send</li>
+					<li class=""><img src="../../assets/icon/deposit.png" class="smallImage" /> Deposit/Withdraw</li>
+					<li class=""><img src="../../assets/icon/settings.png" class="smallImage" /> Settings</li>	
+					<li class=""><img src="../../assets/icon/logout.png" class="smallImage" /> Logout</li>
+					
+				</ul>
+			</div>
+			<div class="col-md-10 no-float">
+				<nav class="navbar navbar-inverse">
+		        <div class="container-fluid">
+		          <div class="navbar-header">
+		            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+		              <span class="sr-only">Toggle navigation</span>
+		              <span class="icon-bar"></span>
+		              <span class="icon-bar"></span>
+		              <span class="icon-bar"></span>
+		            </button>
+		            <a class="navbar-brand" href="#"><img src="../../assets/icon/qr-code.png" class="smallImage" />  
+						<span class="addressUser"> Address: <span th:text="${accountId}"></span></span>
+						<img src="../../assets/icon/copy.png" class="smallImage" /> 
+					</a>
+		          </div>
+		          <div id="navbar" class="navbar-collapse collapse">
+		            
+		            <ul class="nav navbar-nav navbar-right">
+		              <li><a href="./"> <img src="../../assets/icon/settings-white.png" class="smallImage" /> </a></li>
+		              <li><a href="../navbar-static-top/"><img src="../../assets/icon/user.png" class="smallImage" /></a></li>
+		              <li><a href="../navbar-fixed-top/"><img src="../../assets/icon/close.png" class="smallImage" /></a></li>
+		            </ul>
+		          </div><!--/.nav-collapse -->
+		        </div><!--/.container-fluid -->
+		      </nav>	
+		      	  <div class="col-sm-12">
+		      	  	<h4><a th:href="@{/account/balances/} + ${accountId}" th:class="text-muted"><span class="col-md-3 text-center ">Balances</span></a></h4>
+		      	  	<h4><a href="#" th:class="text-muted"><span class="col-md-2 text-center text-secondary">Open Orders</span></a></h4>
+		      	  	<h4><a href="#" th:class="text-muted"><span class="col-md-2 text-center text-secondary">Activity</span></a></h4>
+		      	  	<h4><a th:href="@{/account/latest-transaction/} + ${accountId}" th:class="text-primary"><span class="col-md-3 text-center "><strong>Latest Transaction</strong></span></a></h4>
+		      	  </div>	      
+			      <div class="account-balances-form row">
+				      <table class="table" id="#accountsTable">
+					    <thead>
+						      <tr>		
+						      	<th class="th-header">#</th>
+						        <th class="th-header">DATE</th>
+						        <th class="th-header">ASSET CODE</th>
+						        <th class="th-header">TYPE</th>
+						        <th class="th-header">FROM</th>
+						        <th class="th-header">TO</th>
+						        <th class="th-header">AMOUNT</th>
+						      </tr>					      
+					    </thead>				      
+				      	<tbody th:if="${transactions != 'empty'}" th:each="transactions ,iter: ${transactions}">
+					      <tr >
+					      	<td class="text-center "><span  th:text="${iter.index + 1}"></span></td>	
+					      	<td class="text-center"><span  th:text="${transactions.date}"></span></td>
+					      	<td class="text-center"><span  th:text="${transactions.assetCode}"></span></td>
+					      	<td class="text-center"><span  th:text="${transactions.type}"></span></td>
+					      	<td class="text-center"><span  th:text="${transactions.fromAccount}"></span></td>
+					      	<td class="text-center"><span  th:text="${transactions.toAccount}"></span></td>
+					      	<td class="text-center"><span  th:text="${transactions.amount}"></span></td>
+					      </tr>
+				      	</tbody>
+					  </table>
+			      </div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>			    

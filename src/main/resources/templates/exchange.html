@@ -18,7 +18,7 @@
 				<div class="header-logo"><img src="/assets/icon/safespace-small.png" class="smallImage" /> </div>
 				<ul class="left-navi font-white">
 					<li ><a th:href="@{/wallet/} + ${accountId}"><img src="/assets/icon/wallet.png" class="smallImage"   /> Wallet</a></li>
-					<li class=""><img src="/assets/icon/account.png" class="smallImage" /> Account</li>
+					<li class=""><a th:href="@{/account/balances/} + ${accountId}" class="smallImage"><img src="/assets/icon/account.png" class="smallImage" /> Account</a></li>
 					<li class="active"><a th:href="@{/exchange/} + ${accountId}" class="active"><img src="/assets/icon/dex.png" class="smallImage smallImage activeImg" /> Decentralized Exchange</a></li>
 					<li class=""><img src="/assets/icon/send.png" class="smallImage" /> Send</li>
 					<li class=""><img src="/assets/icon/deposit.png" class="smallImage" /> Deposit/Withdraw</li>
