@@ -3,8 +3,8 @@ package com.safespace.view;
 import java.util.List;
 
 public class Wallet {
-	public List<Assets> assetList;
-	public String accountId;
+	private List<Assets> assetList;
+	private String accountId;
 	
 	public List<Assets> getAssetList() {
 		return assetList;

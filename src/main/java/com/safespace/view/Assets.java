@@ -1,10 +1,10 @@
 package com.safespace.view;
 
 public class Assets {
-	public String assetType;
-	public String assetCode;
-	public String limit;
-	public String balance;
+	private String assetType;
+	private String assetCode;
+	private String limit;
+	private String balance;
 	
 	public String getAssetType() {
 		return assetType;

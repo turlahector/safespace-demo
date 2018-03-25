@@ -1,12 +1,12 @@
 package com.safespace.view;
 
 public class Transactions {
-	public String date;
-	public String type;
-	public String name;
-	public String sender_recipient;
-	public String fee;
-	public String unit;
+	private String date;
+	private String type;
+	private String name;
+	private String sender_recipient;
+	private String fee;
+	private String unit;
 	private String ledger;
 	private String pagingToken;
 	private String assetCode;

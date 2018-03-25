@@ -24,10 +24,9 @@ public class WelcomeController {
 	private String publicKeyIssuer;
 	@Value("${welcome.messageJay:test}")
 	private String messageJay = "Hello World";
-	
+
 	@Autowired
 	private StellarService stellarService;
-	
 
 	@RequestMapping("/")
 	public String welcome(Map<String, Object> model) {
@@ -36,50 +35,53 @@ public class WelcomeController {
 	}
 
 	@RequestMapping("/wallet/{accountId}")
-	public ModelAndView account(@PathVariable ("accountId") String accountId) throws IOException {
+	public ModelAndView account(@PathVariable("accountId") String accountId) throws IOException {
 		ModelAndView model = new ModelAndView("wallet");
-		KeyPair keyPair =KeyPair.fromAccountId(accountId);
-		
+		KeyPair keyPair = KeyPair.fromAccountId(accountId);
+
 		model.addObject("accountId", accountId);
-		//stellarService.requestFreeLumen(accountId);
+		// stellarService.requestFreeLumen(accountId);
 		Wallet wallet = stellarService.getWalletDetails(keyPair);
 		if (wallet == null) {
-			model.addObject("wallet","empty");
-		}else {
-			model.addObject("wallet",wallet);
+			model.addObject("wallet", "empty");
+		} else {
+			model.addObject("wallet", wallet);
 		}
-		
-			model.addObject("transactions",stellarService.transactionsPerAccount(accountId));
+
+		model.addObject("transactions", stellarService.transactionsPerAccount(accountId));
 		return model;
 	}
-	
+
 	@RequestMapping("/exchange/{accountId}")
-	public ModelAndView exchange(@PathVariable ("accountId") String accountId) throws IOException {
-		
-		return exchange(accountId,"lumens","lumens");
+	public ModelAndView exchange(@PathVariable("accountId") String accountId) throws IOException {
+
+		return exchange(accountId, "lumens", "lumens");
 	}
+
 	@RequestMapping("/exchange/{accountId}/{sellAsset}/{buyAsset}")
-	public ModelAndView exchange(@PathVariable ("accountId") String accountId,
-			@PathVariable ("sellAsset")String sellType,@PathVariable ("buyAsset") String buyAssetType) throws IOException{
+	public ModelAndView exchange(@PathVariable("accountId") String accountId,
+			@PathVariable("sellAsset") String sellType, @PathVariable("buyAsset") String buyAssetType)
+			throws IOException {
 		ModelAndView model = new ModelAndView("exchange");
-		KeyPair keyPair =KeyPair.fromAccountId(accountId);
-		
+		KeyPair keyPair = KeyPair.fromAccountId(accountId);
+
 		model.addObject("accountId", accountId);
-		//stellarService.requestFreeLumen(accountId);
+		// stellarService.requestFreeLumen(accountId);
 		Wallet wallet = stellarService.getWalletDetails(keyPair);
 		if (wallet == null) {
-			model.addObject("wallet","empty");
-		}else {
-			model.addObject("wallet",wallet);
+			model.addObject("wallet", "empty");
+		} else {
+			model.addObject("wallet", wallet);
 		}
-	
-		
-		model.addObject("orderBook", stellarService.orderBook(buyAssetType,sellType,publicKeyIssuer,publicKeyIssuer));
+		model.addObject("exchangeGraphUrl",
+				stellarService.exchangeUrlBuilder(buyAssetType, sellType, publicKeyIssuer, publicKeyIssuer));
+
+		model.addObject("orderBook",
+				stellarService.orderBook(buyAssetType, sellType, publicKeyIssuer, publicKeyIssuer));
 		return model;
-		
+
 	}
-	
-	
+
 	@RequestMapping("/account")
 	public String wallet(Map<String, Object> model) {
 		model.put("message", this.messageJay);

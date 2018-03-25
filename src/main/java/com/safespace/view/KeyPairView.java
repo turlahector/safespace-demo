@@ -2,8 +2,8 @@ package com.safespace.view;
 
 public class KeyPairView {
 
-	public String publicKey;
-	public String secretKey;
+	private String publicKey;
+	private String secretKey;
 	
 	
 	public String getPublicKey() {

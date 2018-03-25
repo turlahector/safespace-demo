@@ -98,7 +98,7 @@ public class StellarController {
 				@PathVariable("assetAmountBuy") String assetAmountBuy,
 				@PathVariable("transactionMemo") String transactionMemo) throws IOException {
 			KeyPair issuer = KeyPair.fromAccountId(publicKeyIssuer);
-			KeyPair source = KeyPair.fromSecretSeed(souceSecretSeed);
+			
 			
 			Asset customAssetSell = Asset.createNonNativeAsset(assetCodeSell, issuer);
 			Asset customAssetBuy = Asset.createNonNativeAsset(assetCodeBuy, issuer);

@@ -25,5 +25,7 @@ public interface StellarService {
 	public OrderBook orderBook(String buyingAssetCode,
 			String sellingAssetCode, String buyingAssetIssuer, String sellingAssetIssuer);
 	public ArrayList<Transactions> fetchTransactionViaAccountId(String accountId);
+	public String exchangeUrlBuilder (String counterAssetCode,
+			String baseAssetCode, String counterAssetIssuer, String baseAssetIssuer);
 
 }

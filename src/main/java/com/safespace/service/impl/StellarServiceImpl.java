@@ -60,15 +60,15 @@ public class StellarServiceImpl implements StellarService {
 	public Map<String, Object> requestFreeLumen(String accountId) {
 		Map<String, Object> status = new HashMap<String, Object>();
 		String friendbotUrl = String.format("https://friendbot.stellar.org/?addr=%s", accountId);
-		InputStream response = null;
-		try {
-			response = new URL(friendbotUrl).openStream();
+		
+		try(InputStream response = new URL(friendbotUrl).openStream();				
+				) {
 			status.put("status", "success");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			status.put("status", "error");
-		}
+		} 
 		// String body = new Scanner(response,
 		// "UTF-8").useDelimiter("\\A").next();
 		// System.out.println("SUCCESS! You have a new account :)\n" + body);
@@ -98,9 +98,11 @@ public class StellarServiceImpl implements StellarService {
 				asset.setLimit(balance.getLimit());
 				assetList.add(asset);
 			}
-			accountWallet.setAccountId(accountKeyPair.getAccountId());
-			accountWallet.setAssetList(assetList);
+			if(null != accountWallet){
+				accountWallet.setAccountId(accountKeyPair.getAccountId());
+				accountWallet.setAssetList(assetList);
 			// wallet.put("wallet", wallet);
+			}
 		}
 
 		return accountWallet;
@@ -204,7 +206,7 @@ public class StellarServiceImpl implements StellarService {
 	}
 
 	public Map<String, Object> sendPayment(Asset asset, KeyPair issuingKeys, KeyPair receivingKeys, String amount,
-			String transactionMemo,String limit) throws IOException {
+			String transactionMemo, String limit) throws IOException {
 		Map<String, Object> status = new HashMap<String, Object>();
 		Network.useTestNetwork();
 		Server server = new Server("https://horizon-testnet.stellar.org");
@@ -221,7 +223,7 @@ public class StellarServiceImpl implements StellarService {
 		Transaction allowNewAsset = new Transaction.Builder(receiving).addOperation(
 				// The `ChangeTrust` operation creates (or alters) a trustline
 				// The second parameter limits the amount the account can hold
-				new ChangeTrustOperation.Builder(asset,limit).build()).build();
+				new ChangeTrustOperation.Builder(asset, limit).build()).build();
 		allowNewAsset.sign(receivingKeys);
 		SubmitTransactionResponse response1 = server.submitTransaction(allowNewAsset);
 		System.out.println(response1.getLedger());
@@ -408,144 +410,194 @@ public class StellarServiceImpl implements StellarService {
 
 	}
 
-	public OrderBook orderBook(String buyingAssetCode,
-			String sellingAssetCode, String buyingAssetIssuer, String sellingAssetIssuer) {
-		KeyPair issuerKeyPair =KeyPair.fromAccountId(buyingAssetIssuer);
+	public OrderBook orderBook(String buyingAssetCode, String sellingAssetCode, String buyingAssetIssuer,
+			String sellingAssetIssuer) {
+		KeyPair issuerKeyPair = KeyPair.fromAccountId(buyingAssetIssuer);
 		Asset sellAsset = Asset.createNonNativeAsset(sellingAssetCode, issuerKeyPair);
 		Asset buyAsset = Asset.createNonNativeAsset(buyingAssetCode, issuerKeyPair);
-		if(buyingAssetCode.equalsIgnoreCase("lumens")){
+		if (buyingAssetCode.equalsIgnoreCase("lumens")) {
 			buyAsset = new AssetTypeNative();
 		}
-		if(sellingAssetCode.equalsIgnoreCase("lumens")){
+		if (sellingAssetCode.equalsIgnoreCase("lumens")) {
 			sellAsset = new AssetTypeNative();
 		}
-		InputStream response = null;
-		String buyerUrl = orderBookUrlBuilder(sellAsset.getType(), buyAsset.getType(), buyingAssetCode, sellingAssetCode, buyingAssetIssuer, sellingAssetIssuer);
-				
-				Gson gson = new Gson();
-				OrderBook orderBook = null;
-	    try {
-			
-	    	response = new URL(buyerUrl).openStream();
+		
+		String buyerUrl = orderBookUrlBuilder(sellAsset.getType(), buyAsset.getType(), buyingAssetCode,
+				sellingAssetCode, buyingAssetIssuer, sellingAssetIssuer);
+
+		Gson gson = new Gson();
+		OrderBook orderBook = null;
+		try(InputStream response = new URL(buyerUrl).openStream()) {
+
 			String returnString = IOUtils.toString(response);
-			JsonElement element = gson.fromJson (returnString, JsonElement.class);
+			JsonElement element = gson.fromJson(returnString, JsonElement.class);
 			JsonObject requestJson = element.getAsJsonObject();
-			orderBook = 	new OrderBook(requestJson.get("base").getAsJsonObject(),requestJson.get("counter").getAsJsonObject());
+			orderBook = new OrderBook(requestJson.get("base").getAsJsonObject(),
+					requestJson.get("counter").getAsJsonObject());
 			JsonArray bids = requestJson.get("asks").getAsJsonArray();
-			if(!bids.isJsonNull()){
-				for(JsonElement askElement : bids){
+			if (!bids.isJsonNull()) {
+				for (JsonElement askElement : bids) {
 					OrderPrices book = new OrderPrices();
-					JsonObject askObject = askElement.getAsJsonObject(); 
+					JsonObject askObject = askElement.getAsJsonObject();
 					book.setPrice(askObject.get("price").getAsString());
 					book.setToPrice(askObject.get("amount").getAsString());
-					book.setFromPrice(String.valueOf(Double.valueOf(book.getPrice()) * Double.valueOf(book.getToPrice())));
+					book.setFromPrice(
+							String.valueOf(Double.valueOf(book.getPrice()) * Double.valueOf(book.getToPrice())));
 					orderBook.getBuyPrices().add(book);
 				}
 			}
-			
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	    try {
-		    String sellerUrl = orderBookUrlBuilder(buyAsset.getType(),sellAsset.getType(),  sellingAssetCode,buyingAssetCode, buyingAssetIssuer, sellingAssetIssuer);
-		    response = new URL(sellerUrl).openStream();
+		String sellerUrl = orderBookUrlBuilder(buyAsset.getType(), sellAsset.getType(), sellingAssetCode,
+				buyingAssetCode, buyingAssetIssuer, sellingAssetIssuer);
+		try (InputStream response = new URL(sellerUrl).openStream()) {
+			
+			
 			String returnString = IOUtils.toString(response);
-			JsonElement element = gson.fromJson (returnString, JsonElement.class);
+			JsonElement element = gson.fromJson(returnString, JsonElement.class);
 			JsonObject requestJson = element.getAsJsonObject();
 			JsonArray asks = requestJson.get("asks").getAsJsonArray();
-			if(null == orderBook){
-				orderBook = new OrderBook(requestJson.get("base").getAsJsonObject(),requestJson.get("counter").getAsJsonObject());
+			if (null == orderBook) {
+				orderBook = new OrderBook(requestJson.get("base").getAsJsonObject(),
+						requestJson.get("counter").getAsJsonObject());
 			}
-			if(!asks.isJsonNull()){
-				for(JsonElement askElement : asks){
+			if (!asks.isJsonNull()) {
+				for (JsonElement askElement : asks) {
 					OrderPrices book = new OrderPrices();
-					JsonObject askObject = askElement.getAsJsonObject(); 
+					JsonObject askObject = askElement.getAsJsonObject();
 					book.setPrice(askObject.get("price").getAsString());
 					book.setToPrice(askObject.get("amount").getAsString());
-					book.setFromPrice(String.valueOf(Double.valueOf(book.getPrice()) * Double.valueOf(book.getToPrice())));
+					book.setFromPrice(
+							String.valueOf(Double.valueOf(book.getPrice()) * Double.valueOf(book.getToPrice())));
 					orderBook.getSellPrices().add(book);
 				}
 			}
-	    } catch (IOException e) {
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return orderBook;
 	}
-	
-	private String orderBookUrlBuilder (String sellingAssetType, String buyingAssetType, String buyingAssetCode,
-			String sellingAssetCode, String buyingAssetIssuer, String sellingAssetIssuer){
+
+	public String exchangeUrlBuilder(String counterAssetCode, String baseAssetCode, String counterAssetIssuer,
+			String baseAssetIssuer) {
+		KeyPair issuerKeyPair = KeyPair.fromAccountId(counterAssetIssuer);
+		Asset sellAsset = Asset.createNonNativeAsset(baseAssetCode, issuerKeyPair);
+		Asset buyAsset = Asset.createNonNativeAsset(counterAssetCode, issuerKeyPair);
+		if (counterAssetCode.equalsIgnoreCase("lumens")) {
+			buyAsset = new AssetTypeNative();
+		}
+		if (baseAssetCode.equalsIgnoreCase("lumens")) {
+			sellAsset = new AssetTypeNative();
+		}
+		StringBuilder stellarUrl = new StringBuilder(network);
+		stellarUrl.append("/trade_aggregations?");
+		stellarUrl.append("base_asset_type=");
+		if (!baseAssetCode.equalsIgnoreCase("native") && !baseAssetCode.equalsIgnoreCase("lumens")) {
+			stellarUrl.append(sellAsset.getType());
+			stellarUrl.append("&base_asset_code=");
+			stellarUrl.append(baseAssetCode);
+			stellarUrl.append("&base_asset_issuer=");
+			stellarUrl.append(baseAssetIssuer);
+		} else {
+			stellarUrl.append("native");
+		}
+
+		stellarUrl.append("&counter_asset_type=");
+		if (!counterAssetCode.equalsIgnoreCase("native") && !counterAssetCode.equalsIgnoreCase("lumens")) {
+			stellarUrl.append(buyAsset.getType());
+			stellarUrl.append("&counter_asset_code=");
+			stellarUrl.append(counterAssetCode);
+			stellarUrl.append("&counter_asset_issuer=");
+			stellarUrl.append(counterAssetIssuer);
+		} else {
+			stellarUrl.append("native");
+		}
+		stellarUrl.append("&resolution=900000");
+		return stellarUrl.toString();
+	}
+
+	private String orderBookUrlBuilder(String sellingAssetType, String buyingAssetType, String buyingAssetCode,
+			String sellingAssetCode, String buyingAssetIssuer, String sellingAssetIssuer) {
 		StringBuilder stellarUrl = new StringBuilder(network);
 		stellarUrl.append("/order_book?");
 		stellarUrl.append("selling_asset_type=");
-		stellarUrl.append(sellingAssetType);
-		if (!sellingAssetType.equalsIgnoreCase("native")) {			
+		if (!sellingAssetType.equalsIgnoreCase("native") && !sellingAssetType.equalsIgnoreCase("lumens")) {
+			stellarUrl.append(sellingAssetType);
 			stellarUrl.append("&selling_asset_code=");
 			stellarUrl.append(sellingAssetCode);
 			stellarUrl.append("&selling_asset_issuer=");
 			stellarUrl.append(sellingAssetIssuer);
+		} else {
+			stellarUrl.append("native");
 		}
+
 		stellarUrl.append("&buying_asset_type=");
-		stellarUrl.append(buyingAssetType);
-		if (!buyingAssetType.equalsIgnoreCase("native")) {
+		if (!buyingAssetType.equalsIgnoreCase("native") && !buyingAssetType.equalsIgnoreCase("lumens")) {
+			stellarUrl.append(buyingAssetType);
 			stellarUrl.append("&buying_asset_code=");
 			stellarUrl.append(buyingAssetCode);
 			stellarUrl.append("&buying_asset_issuer=");
 			stellarUrl.append(buyingAssetIssuer);
+		} else {
+			stellarUrl.append("native");
 		}
+
 		return stellarUrl.toString();
 	}
-	
-	public ArrayList<Transactions> fetchTransactionViaAccountId(String accountId){
+
+	public ArrayList<Transactions> fetchTransactionViaAccountId(String accountId) {
 		Gson gson = new Gson();
-		ArrayList<Transactions> returnTransactions= new ArrayList<Transactions>();
-		InputStream response = null;
+		ArrayList<Transactions> returnTransactions = new ArrayList<Transactions>();
 		StringBuilder url = new StringBuilder(network);
 		url.append("/accounts/");
 		url.append(accountId);
 		url.append("/payments");
-		try{
-			response = new URL(url.toString()).openStream();
+		try(InputStream response = new URL(url.toString()).openStream()) {
 			String returnString = IOUtils.toString(response);
-			JsonElement element = gson.fromJson (returnString, JsonElement.class);
+			JsonElement element = gson.fromJson(returnString, JsonElement.class);
 			JsonObject requestJson = element.getAsJsonObject();
 			JsonObject embeddedJson = requestJson.get("_embedded").getAsJsonObject();
 			JsonArray jsonArray = embeddedJson.get("records").getAsJsonArray();
-			if(!jsonArray.isJsonNull()){
-				for(JsonElement loopJsonElement : jsonArray ){
-					JsonObject loopJsonObject = loopJsonElement.getAsJsonObject();					
+			if (!jsonArray.isJsonNull()) {
+				for (JsonElement loopJsonElement : jsonArray) {
+					JsonObject loopJsonObject = loopJsonElement.getAsJsonObject();
 					Transactions transactions = new Transactions();
-					if(null != loopJsonObject.get("asset_code")){
+					if (null != loopJsonObject.get("asset_code")) {
 						transactions.setAssetCode(loopJsonObject.get("asset_code").getAsString());
 					}
-					if(null != loopJsonObject.get("asset_type") && loopJsonObject.get("asset_type").getAsString().equalsIgnoreCase("native")){
+					if (null != loopJsonObject.get("asset_type")
+							&& loopJsonObject.get("asset_type").getAsString().equalsIgnoreCase("native")) {
 						transactions.setAssetCode("LUMENS");
 					}
-					transactions.setDate(getDateFromString("MM/dd/yyyy", loopJsonObject.get("created_at").getAsString()));
+					transactions
+							.setDate(getDateFromString("MM/dd/yyyy", loopJsonObject.get("created_at").getAsString()));
 					transactions.setType(loopJsonObject.get("type").getAsString());
-					if(null != loopJsonObject.get("from")){
+					if (null != loopJsonObject.get("from")) {
 						transactions.setFromAccount(loopJsonObject.get("from").getAsString());
 					}
-					if(null != loopJsonObject.get("to")){
+					if (null != loopJsonObject.get("to")) {
 						transactions.setToAccount(loopJsonObject.get("to").getAsString());
 					}
-					if(null !=loopJsonObject.get("funder")){
+					if (null != loopJsonObject.get("funder")) {
 						transactions.setFromAccount(loopJsonObject.get("funder").getAsString());
 					}
-					if(null != loopJsonObject.get("account")){
+					if (null != loopJsonObject.get("account")) {
 						transactions.setToAccount(loopJsonObject.get("account").getAsString());
 					}
-					if(null != loopJsonObject.get("starting_balance")){
+					if (null != loopJsonObject.get("starting_balance")) {
 						transactions.setAmount(loopJsonObject.get("starting_balance").getAsString());
 					}
-					if(null != loopJsonObject.get("amount")){
+					if (null != loopJsonObject.get("amount")) {
 						transactions.setAmount(loopJsonObject.get("amount").getAsString());
 					}
 					returnTransactions.add(transactions);
 				}
 			}
-		} catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return returnTransactions;

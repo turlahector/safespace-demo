@@ -48,7 +48,6 @@ public class AccountController {
 	@RequestMapping("/account/latest-transaction/{accountId}")
 	public ModelAndView accountLatestTransaction(@PathVariable ("accountId") String accountId) throws IOException{
 		ModelAndView modelAndView = new ModelAndView("latest-transaction");
-		KeyPair keyPair =KeyPair.fromAccountId(accountId);
 		
 		modelAndView.addObject("transactions", stellarService.fetchTransactionViaAccountId(accountId));
 		modelAndView.addObject("accountId", accountId);
