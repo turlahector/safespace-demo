@@ -1,0 +1,16 @@
+FEDERATION_SERVER="https://findmvp.com/federation"
+DEPOSIT_SERVER="https://findmvp.com/deposit"
+
+
+
+[[CURRENCIES]]
+code="MVPT"
+issuer="GBHQNJK3JTTFLHCNLCRV3IZ4LZNQQJUHDGQ2U7VQJHW2EPL2P2MPWZLW"
+host="https://findmvp.com"
+countries="PH"
+
+[[CURRENCIES]]
+code="BTC"
+issuer="GBHQNJK3JTTFLHCNLCRV3IZ4LZNQQJUHDGQ2U7VQJHW2EPL2P2MPWZLW"
+host="https://naobtc.com"
+countries="CN"
