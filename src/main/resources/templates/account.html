@@ -74,16 +74,18 @@
 
 						<div class="font-gray generate-box access-account" style="display:none">
 							<div class="padding-bottom-13px">LOG IN WITH YOUR SECRET KEY TO MANAGE YOUR ACCOUNT</div>
-
-							<div class="padding-bottom-13px font13px">
-								<input type="text" placeholder="GDPLLMJG7WENIJD5WTV4CUUXVOX2YVNSEBRSXMHLDZL32PFZXESBBSMA" value="" class="login-input"/>
-							</div>
-							
-							
-							<div class="padding-bottom-13px">
-								<input type="button" value="LOG IN" class="button-gen-key" id="login"/>
-							</div>
-
+							<form th:action="@{/account}" method="post">
+								<div class="padding-bottom-13px font13px">
+									<!--  <input type="text" placeholder="GDPLLMJG7WENIJD5WTV4CUUXVOX2YVNSEBRSXMHLDZL32PFZXESBBSMA" value="" class="login-input"/> -->
+									<input type="text" placeholder="Username" name="username" class="circleInput" />
+									<div style="padding-top: 10px;"><input type="password" name="password" placeholder="Password" class="circleInput" /></div>
+								</div>
+								
+								
+								<div class="padding-bottom-13px">
+									<input type="submit" value="LOG IN" class="button-gen-key" id="login"/>
+								</div>
+							</form>
 							<div class="padding-bottom-13px securtiy-notes">Security notes</div>
 							<div class="padding-bottom-13px font13px">
 								<ul class="securities">

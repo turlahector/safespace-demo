@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.stellar.sdk.Asset;
 import org.stellar.sdk.AssetTypeNative;
@@ -43,7 +44,7 @@ import com.stellar.StellarUtil;
 public class StellarServiceImpl implements StellarService {
 
 	private String network = "https://horizon-testnet.stellar.org";
-
+	final static Logger LOGGER = Logger.getLogger(StellarServiceImpl.class);
 	@Override
 	public Map<String, Object> generateKeyPair() {
 		KeyPair pair = KeyPair.random();
@@ -66,7 +67,7 @@ public class StellarServiceImpl implements StellarService {
 			status.put("status", "success");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.debug(e.getMessage());
 			status.put("status", "error");
 		} 
 		// String body = new Scanner(response,
@@ -85,7 +86,7 @@ public class StellarServiceImpl implements StellarService {
 			account = server.accounts().account(accountKeyPair);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.debug(e.getMessage());
 			accountWallet = null;
 		}
 
@@ -143,7 +144,7 @@ public class StellarServiceImpl implements StellarService {
 			server.submitTransaction(newAsset);
 			status.put("status", "success");
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.debug(e.getMessage());
 			status.put("status", "error");
 		}
 		return status;
@@ -172,7 +173,7 @@ public class StellarServiceImpl implements StellarService {
 			sourceAccount = server.accounts().account(sourceSecret);
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			LOGGER.debug(e1.getMessage());
 		}
 
 		// If there was no error, load up-to-date information on your account.
@@ -338,7 +339,7 @@ public class StellarServiceImpl implements StellarService {
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.debug(e.getMessage());
 		}
 		return transactions;
 	}
@@ -376,7 +377,7 @@ public class StellarServiceImpl implements StellarService {
 			sourceAccount = server.accounts().account(source);
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			LOGGER.debug(e1.getMessage());
 			status.put("status", e1.getMessage());
 		}
 
@@ -449,7 +450,7 @@ public class StellarServiceImpl implements StellarService {
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.debug(e.getMessage());
 		}
 		String sellerUrl = orderBookUrlBuilder(buyAsset.getType(), sellAsset.getType(), sellingAssetCode,
 				buyingAssetCode, buyingAssetIssuer, sellingAssetIssuer);
@@ -477,7 +478,7 @@ public class StellarServiceImpl implements StellarService {
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.debug(e.getMessage());
 		}
 		return orderBook;
 	}
@@ -598,7 +599,7 @@ public class StellarServiceImpl implements StellarService {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOGGER.debug(e.getMessage());
 		}
 		return returnTransactions;
 	}

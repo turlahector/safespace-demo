@@ -1,5 +1,5 @@
 
-jQuery("#login").click(function() {
+/*jQuery("#login").click(function() {
 	var username = getCookie(jQuery('.login-input').val());
 	if(username != "") {
 		location.href = "/wallet/"+ jQuery('.login-input').val();
@@ -8,7 +8,7 @@ jQuery("#login").click(function() {
 		alert("INVALID account");
 		
 	}
-});
+});*/
 
 jQuery( ".side-links" ).click(function() {
 	jQuery(".side-links").removeClass("side-links-active");

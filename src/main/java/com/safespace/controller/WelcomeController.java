@@ -3,6 +3,7 @@ package com.safespace.controller;
 import java.io.IOException;
 import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -27,12 +28,13 @@ public class WelcomeController {
 
 	@Autowired
 	private StellarService stellarService;
-
+	
 	@RequestMapping("/")
 	public String welcome(Map<String, Object> model) {
 		model.put("message", this.message);
 		return "welcome";
 	}
+	final static Logger LOGGER = Logger.getLogger(WelcomeController.class);
 
 	@RequestMapping("/wallet/{accountId}")
 	public ModelAndView account(@PathVariable("accountId") String accountId) throws IOException {
@@ -54,7 +56,7 @@ public class WelcomeController {
 
 	@RequestMapping("/exchange/{accountId}")
 	public ModelAndView exchange(@PathVariable("accountId") String accountId) throws IOException {
-
+			
 		return exchange(accountId, "lumens", "lumens");
 	}
 
