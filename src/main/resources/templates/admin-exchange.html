@@ -14,19 +14,8 @@
 <body>
 	<div class="container">
 	    <div class="row">
-	        <div class="col-md-2 no-float left-navi-dashboard">
-				<div class="header-logo"><img src="/assets/icon/safespace-small.png" class="smallImage" /> </div>
-				<ul class="left-navi font-white">
-					<li ><a th:href="@{/admin/wallet}"><img src="/assets/icon/wallet.png" class="smallImage"   /> Wallet</a></li>
-					<li class=""><a th:href="@{/account/balances/} + ${accountId}" class="smallImage"><img src="/assets/icon/account.png" class="smallImage" /> Account</a></li>
-					<li class="active"><a th:href="@{/admin/exchange}" class="active"><img src="/assets/icon/dex.png" class="smallImage smallImage activeImg" /> Decentralized Exchange</a></li>
-					<li class=""><img src="/assets/icon/send.png" class="smallImage" /> Send</li>
-					<li class=""><img src="/assets/icon/deposit.png" class="smallImage" /> Deposit/Withdraw</li>
-					<li class=""><img src="/assets/icon/settings.png" class="smallImage" /> Settings</li>	
-					<li class=""><img src="/assets/icon/logout.png" class="smallImage" /> Logout</li>
-					
-				</ul>
-			</div>
+	     <div class="col-md-2 no-float left-navi-dashboard" lang="en" th:include="fragments/side-bar-admin :: sidebaradmin(${currentPage})"></div>
+	     
 	        <div class="col-md-10 no-float">
 				<nav class="navbar navbar-inverse">
 		        <div class="container-fluid">
@@ -162,19 +151,19 @@
 								    <thead>
 								      <tr>
 								      	<th>#</th>
-								      	 <th>Sum <span th:text="${orderBook.toCode}" ></span></th>
-								      	 <th><span th:text="${orderBook.toCode}" ></span></th>
-								        <th><span th:text="${orderBook.fromCode}" ></span></th>								        
+								      	 <th>Sum <span th:text="${orderBook?.toCode}" ></span></th>
+								      	 <th><span th:text="${orderBook?.toCode}" ></span></th>
+								        <th><span th:text="${orderBook?.fromCode}" ></span></th>								        
 								        <th>Price per unit</th>								        
 								      </tr>
 								    </thead>
-								    <tbody th:if="${orderBook != 'empty'}" th:each="buyPrices ,iter: ${orderBook.buyPrices}">
+								    <tbody th:if="${orderBook != 'empty'}" th:each="buyPrices ,iter: ${orderBook?.buyPrices}">
 								      <tr>
 								        <td><span th:text="${iter.index +1}" ></span></td>
 								        <td>-</td>	
-								        <td><span th:text="${buyPrices.toPrice}" ></span></td>
-								        <td><span th:text="${buyPrices.fromPrice}" ></span></td>								        
-								        <td><span th:text="${buyPrices.price}" ></span></td>								        
+								        <td><span th:text="${buyPrices?.toPrice}" ></span></td>
+								        <td><span th:text="${buyPrices?.fromPrice}" ></span></td>								        
+								        <td><span th:text="${buyPrices?.price}" ></span></td>								        
 								      </tr>								      
 								    </tbody>
 								  </table>
@@ -205,19 +194,19 @@
 								    <thead>
 								      <tr>
 								      	<th>#</th>
-								        <th>Sum <span th:text="${orderBook.toCode}" ></span></th>
-								        <th><span th:text="${orderBook.fromCode}" ></span></th>
-								        <th><span th:text="${orderBook.toCode}" ></span></th>
+								        <th>Sum <span th:text="${orderBook?.toCode}" ></span></th>
+								        <th><span th:text="${orderBook?.fromCode}" ></span></th>
+								        <th><span th:text="${orderBook?.toCode}" ></span></th>
 								        <th>Price per unit</th>		
 								      </tr>
 								    </thead>
-								     <tbody th:if="${sellOrderBook != 'empty'}" th:each="sellPrices,iter: ${orderBook.sellPrices}">
+								     <tbody th:if="${sellOrderBook != 'empty'}" th:each="sellPrices,iter: ${orderBook?.sellPrices}">
 								      <tr>
 								      	<td><span th:text="${iter.index +1}" ></span></td>
 								        <td>-</td>
-								        <td><span th:text="${sellPrices.toPrice}" ></span></td>
-								        <td><span th:text="${sellPrices.fromPrice}" ></span></td>
-								        <td><span th:text="${sellPrices.price}" ></span></td>								        
+								        <td><span th:text="${sellPrices?.toPrice}" ></span></td>
+								        <td><span th:text="${sellPrices?.fromPrice}" ></span></td>
+								        <td><span th:text="${sellPrices?.price}" ></span></td>								        
 								      </tr>								      
 								    </tbody>
 								  </table>

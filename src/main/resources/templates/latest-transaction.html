@@ -12,19 +12,7 @@
 <body>
 	<div class="container">
 	    <div class="row">
-	    	<div class="col-md-2 no-float left-navi-dashboard">
-				<div class="header-logo"><img src="../../assets/icon/safespace-small.png" class="smallImage" /> </div>
-				<ul class="left-navi font-white">
-					<li class=""><a th:href="@{/wallet/} + ${accountId}" class="smallImage"><img src="../../assets/icon/wallet.png" class="smallImage"   /> Wallet</a></li>
-					<li class="active"><a th:href="@{/account/balances/} + ${accountId}" class="active"><img src="../../assets/icon/account.png" class="active activeImg" /> Account</a></li>
-					<li class=""><a th:href="@{/exchange/} + ${accountId}"><img src="../../assets/icon/dex.png" class="smallImage" /> Decentralized Exchange</a></li>
-					<li class=""><img src="../../assets/icon/send.png" class="smallImage" /> Send</li>
-					<li class=""><img src="../../assets/icon/deposit.png" class="smallImage" /> Deposit/Withdraw</li>
-					<li class=""><img src="../../assets/icon/settings.png" class="smallImage" /> Settings</li>	
-					<li class=""><img src="../../assets/icon/logout.png" class="smallImage" /> Logout</li>
-					
-				</ul>
-			</div>
+	    	<div class="col-md-2 no-float left-navi-dashboard" th:include="fragments/side-bar :: sidebar(${currentPage})"></div>
 			<div class="col-md-10 no-float">
 				<nav class="navbar navbar-inverse">
 		        <div class="container-fluid">
@@ -45,7 +33,7 @@
 		            <ul class="nav navbar-nav navbar-right">
 		              <li><a href="./"> <img src="../../assets/icon/settings-white.png" class="smallImage" /> </a></li>
 		              <li><a href="../navbar-static-top/"><img src="../../assets/icon/user.png" class="smallImage" /></a></li>
-		              <li><a href="../navbar-fixed-top/"><img src="../../assets/icon/close.png" class="smallImage" /></a></li>
+		              <li><a th:href="@{/logout}"><img src="../../assets/icon/close.png" class="smallImage" /></a></li>
 		            </ul>
 		          </div><!--/.nav-collapse -->
 		        </div><!--/.container-fluid -->

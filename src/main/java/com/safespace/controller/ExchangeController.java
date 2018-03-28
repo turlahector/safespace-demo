@@ -47,6 +47,7 @@ public class ExchangeController {
 		model.addObject("accountId", publicKeyReciever);
 		//stellarService.requestFreeLumen(accountId);
 		Wallet wallet = stellarService.getWalletDetails(keyPair);
+		model.addObject("currentPage", "exchange");
 		if (wallet == null) {
 			model.addObject("wallet","empty");
 		}else {

@@ -40,7 +40,7 @@ public class WelcomeController {
 	public ModelAndView account(@PathVariable("accountId") String accountId) throws IOException {
 		ModelAndView model = new ModelAndView("wallet");
 		KeyPair keyPair = KeyPair.fromAccountId(accountId);
-
+		model.addObject("currentPage", "wallet");
 		model.addObject("accountId", accountId);
 		// stellarService.requestFreeLumen(accountId);
 		Wallet wallet = stellarService.getWalletDetails(keyPair);
@@ -70,6 +70,7 @@ public class WelcomeController {
 		model.addObject("accountId", accountId);
 		// stellarService.requestFreeLumen(accountId);
 		Wallet wallet = stellarService.getWalletDetails(keyPair);
+		model.addObject("currentPage", "exchange");
 		if (wallet == null) {
 			model.addObject("wallet", "empty");
 		} else {

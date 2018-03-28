@@ -38,7 +38,7 @@ public class AdminController {
 		ModelAndView model = new ModelAndView("admin-wallet");
 		
 		KeyPair keyPair =KeyPair.fromAccountId(publicKeyReciever);
-		
+		model.addObject("currentPage", "wallet");
 		model.addObject("accountId", publicKeyReciever);
 		//stellarService.requestFreeLumen(accountId);
 		Wallet wallet = stellarService.getWalletDetails(keyPair);

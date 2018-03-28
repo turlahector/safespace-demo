@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+	<html xmlns:th="http://www.thymeleaf.org">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<body>
+		<div th:fragment="sidebaradmin(currentPage)">
+			<div class="header-logo"><img src="/assets/icon/safespace-small.png" class="smallImage" /> </div>
+			<ul class="left-navi font-white">
+				<li th:class="${currentPage == 'wallet' ? 'active':''}">
+					<a th:href="@{/admin/wallet}" th:class="${currentPage == 'wallet' ? 'active smallImage':'smallImage'}">
+						<img src="/assets/icon/wallet.png" th:class="${currentPage == 'wallet' ? 'activeImg smallImage':'smallImage'}  "  /> 
+							Wallet
+					</a>
+				</li>
+				<li th:class="${currentPage == 'account' ? 'active':''}">
+					<a th:href="@{/account/balances/} + ${accountId}" th:class="${currentPage == 'account' ? 'active smallImage':'smallImage'}">
+						<img src="/assets/icon/account.png" th:class="${currentPage == 'account' ? 'activeImg smallImage':'smallImage'}  " /> 
+							Account
+					</a>
+				</li>
+				<li th:class="${currentPage == 'exchange' ? 'active':''}">
+					<a th:href="@{/admin/exchange}" th:class="${currentPage == 'exchange' ? 'active smallImage':'smallImage'}">
+						<img src="/assets/icon/dex.png" th:class="${currentPage == 'exchange' ? 'activeImg smallImage':'smallImage'}  " /> 
+							Decentralized Exchange
+					</a>
+				</li>
+				<li class=""><img src="/assets/icon/send.png" class="smallImage" /> Send</li>
+				<li class=""><img src="/assets/icon/deposit.png" class="smallImage" /> Deposit/Withdraw this is include</li>
+				<li class=""><img src="/assets/icon/settings.png" class="smallImage" /> Settings</li>	
+				<li class=""><img src="/assets/icon/logout.png" class="smallImage" /> Logout</li>
+				
+			</ul>
+		</div>
+	</body>
+</html>

@@ -41,7 +41,7 @@ public class AccountController {
 			modelAndView.addObject("wallet",wallet);
 		}		
 		modelAndView.addObject("accountId", accountId);
-		
+		modelAndView.addObject("currentPage", "account");
 		return modelAndView;	
 	}
 	
@@ -51,6 +51,7 @@ public class AccountController {
 		
 		modelAndView.addObject("transactions", stellarService.fetchTransactionViaAccountId(accountId));
 		modelAndView.addObject("accountId", accountId);
+		modelAndView.addObject("currentPage", "account");
 		
 		return modelAndView;	
 	}
