@@ -44,18 +44,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	
 	
  
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth, HttpSecurity http) throws Exception {
     	//auth.userDetailsService(userDetailsService);
     	auth.jdbcAuthentication().dataSource(datasource)
 		.usersByUsernameQuery(
 			"SELECT user_name,password, enabled FROM user WHERE user_name=?")
 		.authoritiesByUsernameQuery(
 			"SELECT u.user_name, r.name role FROM user u INNER JOIN role r USING(role_id) WHERE u.user_name=?");
+    	http.cors().and().antMatcher("/.well-known/**");
     }
     
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/api/**"); //excluding all API for now. Handle security later
     }
+    
+
 }
