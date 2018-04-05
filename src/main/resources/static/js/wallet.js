@@ -54,7 +54,6 @@ $( document ).ready(function() {
 		var amount = jQuery("#amount").val();
 		var transactionMemo = jQuery("#memo").val();
 		var accountId = jQuery("#accountId").val();
-		var sourceKey = getCookie(accountId);
 		var assetCode = jQuery(".tokenName").text();
 		var secretCode = {"secretCode" : jQuery("#secretCode").val(),"limit" : jQuery("#limitSendPayment").val()};
 		
@@ -63,12 +62,11 @@ $( document ).ready(function() {
 		console.log("amount===" + amount);
 		console.log("transactionMemo===" + transactionMemo);
 		console.log("assetCode==="  + assetCode);
-		console.log("sourceKey===" + sourceKey);
 		console.log("secretCode===" + secretCode);
 		
 		
 		$.ajax({
-	    url : '/api/stellar/sendPayment/'+assetCode+'/'+sourceKey+'/'+recipeint+'/'+amount+'/'+transactionMemo,
+	    url : '/api/stellar/sendPayment/'+assetCode+'/'+recipeint+'/'+amount+'/'+transactionMemo,
 	          method: "POST",
 	          data: JSON.stringify(secretCode),
 	          contentType : 'application/json', 

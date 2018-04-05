@@ -64,10 +64,9 @@ public class StellarController {
 		return stellarService.issuingNewAsset(secretKeyIssuer, secretKeyReciever, customAsset, limit, amount);
 	}
 	
-	@RequestMapping(value="/sendPayment/{assetCode}/{sourceSecretKey}/{destinationAccountId}/{amount}/{transactionMemo}", method=RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value="/sendPayment/{assetCode}/{destinationAccountId}/{amount}/{transactionMemo}", method=RequestMethod.POST,consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public Map<String, Object> sendPayment(
-			@PathVariable ("assetCode") String assetCode, 
-			@PathVariable ("sourceSecretKey") String sourceSecretKey, 
+			@PathVariable ("assetCode") String assetCode,  
 			@PathVariable("destinationAccountId") String destinationAccountId, 
 			@PathVariable ("amount") String amount,
 			@PathVariable("transactionMemo") String transactionMemo,
@@ -75,7 +74,7 @@ public class StellarController {
 		Gson gson = new Gson();
 		JsonElement element = gson.fromJson (requestBody, JsonElement.class);
 		JsonObject requestJson = element.getAsJsonObject();
-		KeyPair issuingKeysSecret  = KeyPair.fromSecretSeed(sourceSecretKey);
+		KeyPair issuingKeysSecret  = KeyPair.fromSecretSeed(secretKeyReciever);
 		KeyPair receivingKeysSecret  = KeyPair.fromSecretSeed(requestJson.get("secretCode").getAsString());
 		KeyPair assetIssuingKeys = KeyPair.fromAccountId(publicKeyIssuer);
 		

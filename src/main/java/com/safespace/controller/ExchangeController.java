@@ -46,6 +46,8 @@ public class ExchangeController {
 		
 		model.addObject("accountId", publicKeyReciever);
 		//stellarService.requestFreeLumen(accountId);
+		model.addObject("exchangeGraphUrl",
+				stellarService.exchangeUrlBuilder(buyAssetType, sellType, publicKeyIssuer, publicKeyIssuer));
 		Wallet wallet = stellarService.getWalletDetails(keyPair);
 		model.addObject("currentPage", "exchange");
 		if (wallet == null) {
