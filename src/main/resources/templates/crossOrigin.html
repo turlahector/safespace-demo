@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Safe Space Decentralize Exchange</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<link rel="stylesheet" type="text/css"
+	href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+<link rel="stylesheet" th:href="@{/css/main.css}" href="../../css/main.css" />
+<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
+
+</head>
+<body>
+	
+	<!-- /.container -->
+
+	<script type="text/javascript"
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript"
+		src="webjars/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script th:src="@{/js/account.js}"> </script>
+	<script type="text/javascript" th:src="@{/js/Ajax-Aws-Signature-V4/hmac-sha256.js}"></script>
+<script type="text/javascript" th:src="@{/js/Ajax-Aws-Signature-V4/sha256-min.js}"></script>
+<script type="text/javascript" th:src="@{/js/Ajax-Aws-Signature-V4/AuthenticatedAWSAjaxRequest.js}"></script>
+<script type="text/javascript">
+
+    var awsCredentials = {
+        region: 'ap-southeast-2',
+        accessKeyId: 'AKIAJ733TJJB4VHQDV6A',
+		contentType : 'application/json',
+        secretAccessKey: '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'
+    };
+
+    var params = {
+        url: "https://2dw9yv02ke.execute-api.ap-southeast-2.amazonaws.com/uhapi_v2/users",
+        method: 'POST',
+        data: JSON.stringify({"email": "test@umpshealth.com","password": "abc123"})
+    };
+
+    new AuthenticatedAWSAjaxRequest(awsCredentials, 'execute-api', params)
+                .done(function( data, textStatus, jqXHR) {
+                    console.log(data);
+                    console.log(textStatus);
+                }).fail(function(xhr, status, ex) {
+                    console.log(xhr);
+                    alert(ex);
+                });
+</script>
+</body>
+</html>
