@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script type="text/javascript" src="hmac-sha256.js"></script>
+<script type="text/javascript" src="sha256-min.js"></script>
+<script type="text/javascript" src="AuthenticatedAWSAjaxRequest.js"></script>
+</head>
+<body>
+
+<script type="text/javascript">
+
+    var awsCredentials = {
+        region: 'ap-southeast-2',
+        accessKeyId: 'AKIAJ733TJJB4VHQDV6A',
+        secretAccessKey: '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'
+    };
+
+    var params = {
+        url: "https://2dw9yv02ke.execute-api.ap-southeast-2.amazonaws.com/uhapi_v2/users",
+        method: 'POST',
+        data: JSON.stringify({"email": "test@umpshealth.com","password": "abc123"})
+    };
+
+    new AuthenticatedAWSAjaxRequest(awsCredentials, 'execute-api', params)
+                .done(function( data, textStatus, jqXHR) {
+                    console.log(data);
+                    console.log(textStatus);
+                }).fail(function(xhr, status, ex) {
+                    console.log(xhr);
+                    alert(ex);
+                });
+</script>
+</body>
+</html>
